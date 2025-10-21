@@ -1,6 +1,6 @@
-package ru.iarmoshenko.NauJava.dbConnection;
+package ru.iarmoshenko.NauJava.repository;
 
-public interface CrudRepository<T, ID>
+public interface LegacyCrudRepository<T, ID>
 {
     void create(T entity);
     T read(ID id);

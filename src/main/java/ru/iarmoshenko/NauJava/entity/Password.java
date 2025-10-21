@@ -1,40 +1,67 @@
 package ru.iarmoshenko.NauJava.entity;
 
-import java.util.Date;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "Password")
 public class Password {
-    private Long id;
-    private Long userId;
-    private byte[] encryptedPassword;
-    private Content content;
-    private String salt;
-    private int length;
-    private Date updatedAt;
+    @Id
+    @GeneratedValue
+    private int id;
 
-    public Password(Long id, Long userId, byte[] encryptedPassword, Content content, String salt, int length) {
-        setId(id);
-        setUserId(userId);
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(nullable = false)
+    private byte[] encryptedPassword;
+
+    @ManyToOne
+    @JoinColumn(name = "content_id", nullable = false)
+    private Content content;
+
+    @ManyToOne
+    @JoinColumn(name = "algorithm_id", nullable = false)
+    private Algorithm algorithm;
+
+    @Column(nullable = false)
+    private String salt;
+
+    @Column(nullable = false)
+    private int length;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    protected Password() {}
+
+    public Password(User user, byte[] encryptedPassword, Content content, Algorithm algorithm,
+                    String salt, int length, LocalDateTime updatedAt) {
+        setUser(user);
         setEncryptedPassword(encryptedPassword);
         setContent(content);
+        setAlgorithm(algorithm);
         setSalt(salt);
         setLength(length);
-        setUpdatedAt(new Date());
+        setUpdatedAt(updatedAt);
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public byte[] getEncryptedPassword() {
@@ -53,6 +80,14 @@ public class Password {
         this.content = content;
     }
 
+    public Algorithm getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
+    }
+
     public String getSalt() {
         return salt;
     }
@@ -66,18 +101,14 @@ public class Password {
     }
 
     public void setLength(int length) {
-        if (length < 1) {
-            throw new IllegalArgumentException("Password length must be at least 1");
-        }
-
         this.length = length;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

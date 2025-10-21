@@ -1,28 +1,28 @@
-package ru.iarmoshenko.NauJava.dbConnection;
+package ru.iarmoshenko.NauJava.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.iarmoshenko.NauJava.entity.Password;
+import ru.iarmoshenko.NauJava.entity.LegacyPassword;
 
 import java.util.Date;
 import java.util.List;
 
 @Component
-public class PasswordRepository implements CrudRepository<Password, Long> {
-    private final List<Password> passwordRepository;
+public class LegacyPasswordRepository implements LegacyCrudRepository<LegacyPassword, Long> {
+    private final List<LegacyPassword> passwordRepository;
 
     @Autowired
-    public PasswordRepository(List<Password> passwordRepository) {
+    public LegacyPasswordRepository(List<LegacyPassword> passwordRepository) {
         this.passwordRepository = passwordRepository;
     }
 
     @Override
-    public void create(Password password) {
+    public void create(LegacyPassword password) {
         passwordRepository.add(password);
     }
 
     @Override
-    public Password read(Long id) {
+    public LegacyPassword read(Long id) {
         return passwordRepository.stream()
                 .filter(pass -> pass.getId().equals(id))
                 .findFirst()
@@ -30,7 +30,7 @@ public class PasswordRepository implements CrudRepository<Password, Long> {
     }
 
     @Override
-    public void update(Password newPassword) {
+    public void update(LegacyPassword newPassword) {
         var password = read(newPassword.getId());
 
         if (password != null) {
@@ -51,7 +51,7 @@ public class PasswordRepository implements CrudRepository<Password, Long> {
         passwordRepository.removeIf(password -> password.getId().equals(id));
     }
 
-    public List<Password> getUserPasswords(Long userId) {
+    public List<LegacyPassword> getUserPasswords(Long userId) {
         return passwordRepository.stream()
                 .filter(pass -> pass.getUserId().equals(userId))
                 .toList();
