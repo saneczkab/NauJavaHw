@@ -4,4 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 import ru.iarmoshenko.NauJava.entity.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
+    User findByUsernameOrEmail(String username, String email);
 }
