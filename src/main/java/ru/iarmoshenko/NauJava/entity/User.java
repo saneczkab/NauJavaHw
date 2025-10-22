@@ -6,8 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.Objects;
+
 @Entity
-@Table(name = "User")
+@Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue
@@ -28,6 +30,18 @@ public class User {
         setUsername(username);
         setEmail(email);
         setPasswordHash(passwordHash);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(passwordHash, user.passwordHash);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, passwordHash);
     }
 
     public int getId() {

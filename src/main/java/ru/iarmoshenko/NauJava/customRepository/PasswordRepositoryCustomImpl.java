@@ -17,12 +17,13 @@ public class PasswordRepositoryCustomImpl implements PasswordRepositoryCustom {
     }
 
     @Override
-    public List<Password> findByUserId(Integer userId) {
+    public List<Password> findByUserId(int userId) {
         var criteriaBuilder = entityManager.getCriteriaBuilder();
         var criteriaQuery = criteriaBuilder.createQuery(Password.class);
         var passwordRoot = criteriaQuery.from(Password.class);
 
-        var userIdPredicate = criteriaBuilder.equal(passwordRoot.get("userId"), userId);
+        var userJoin = passwordRoot.join("user");
+        var userIdPredicate = criteriaBuilder.equal(userJoin.get("id"), userId);
         criteriaQuery.select(passwordRoot).where(userIdPredicate);
 
         return entityManager.createQuery(criteriaQuery).getResultList();

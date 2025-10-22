@@ -5,5 +5,5 @@ import ru.iarmoshenko.NauJava.entity.Password;
 import java.util.List;
 
 public interface PasswordRepositoryCustom {
-    List<Password> findByUserId(Integer userId);
+    List<Password> findByUserId(int userId);
 }

@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Algorithm")
+@Table(name = "Algorithms")
 public class Algorithm {
     @Id
     @GeneratedValue
@@ -17,14 +17,14 @@ public class Algorithm {
     private String name;
 
     @Column(nullable = false)
-    private String keySize;
+    private int keySize;
 
     @Column(nullable = false)
     private String mode;
 
     protected Algorithm() {}
 
-    public Algorithm(String name, String keySize, String mode) {
+    public Algorithm(String name, int keySize, String mode) {
         setName(name);
         setKeySize(keySize);
         setMode(mode);
@@ -46,11 +46,11 @@ public class Algorithm {
         this.name = name;
     }
 
-    public String getKeySize() {
+    public int getKeySize() {
         return keySize;
     }
 
-    public void setKeySize(String keySize) {
+    public void setKeySize(int keySize) {
         this.keySize = keySize;
     }
 

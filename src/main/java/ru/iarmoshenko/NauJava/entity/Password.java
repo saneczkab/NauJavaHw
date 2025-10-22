@@ -3,9 +3,11 @@ package ru.iarmoshenko.NauJava.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
-@Table(name = "Password")
+@Table(name = "Passwords")
 public class Password {
     @Id
     @GeneratedValue
@@ -46,6 +48,18 @@ public class Password {
         setSalt(salt);
         setLength(length);
         setUpdatedAt(updatedAt);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Password password = (Password) o;
+        return id == password.id && length == password.length && Objects.equals(user, password.user) && Objects.deepEquals(encryptedPassword, password.encryptedPassword) && Objects.equals(salt, password.salt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, Arrays.hashCode(encryptedPassword), content, algorithm, salt, length, updatedAt);
     }
 
     public int getId() {

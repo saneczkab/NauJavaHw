@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Tag")
+@Table(name = "Tags")
 public class Tag {
     @Id
     @GeneratedValue
