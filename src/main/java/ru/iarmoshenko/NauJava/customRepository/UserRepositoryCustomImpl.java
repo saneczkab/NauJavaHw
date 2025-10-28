@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import ru.iarmoshenko.NauJava.entity.User;
 
+import java.util.List;
+
 @Repository
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final EntityManager entityManager;
@@ -15,7 +17,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public User findByUsernameOrEmail(String username, String email) {
+    public List<User> findByUsernameOrEmail(String username, String email) {
         var criteriaBuilder = entityManager.getCriteriaBuilder();
         var criteriaQuery = criteriaBuilder.createQuery(User.class);
         var userRoot = criteriaQuery.from(User.class);
@@ -25,6 +27,6 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         var finalPredicate = criteriaBuilder.or(usernamePredicate, emailPredicate);
         criteriaQuery.select(userRoot).where(finalPredicate);
 
-        return entityManager.createQuery(criteriaQuery).getSingleResult();
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 }
