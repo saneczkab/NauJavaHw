@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.iarmoshenko.NauJava.entity.LegacyPassword;
 
 @Configuration
@@ -32,5 +34,10 @@ public class Config {
     public void printAppInfo() {
         System.out.printf("Приложение: %s | Версия: %s%n", appName, appVersion);
         System.out.println("Spring Boot Actuator доступен: http://localhost:8080/actuator");
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
