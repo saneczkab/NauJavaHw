@@ -16,6 +16,7 @@ CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
     username varchar(255) UNIQUE NOT NULL,
     email varchar(255) UNIQUE NOT NULL,
+    role varchar(32) NOT NULL DEFAULT 'USER',
     password_hash varchar(255) NOT NULL
 );
 
@@ -78,10 +79,10 @@ insert into Tags (name, description, color_hex) values
 ('Social', 'Social media passwords', '#00FF00'),
 ('Games', 'Game services passwords', '#0000FF');
 
-insert into Users (username, email, password_hash) values
-('alex', 'alex@mail.com', 'alex_hash'),
-('white_cat', 'white@cat.com', 'white_cat_hash'),
-('water_fox', 'water@fox.com', 'water_fox_hash');
+insert into Users (username, email, role, password_hash) values
+('alex', 'alex@mail.com', 'ADMIN', 'alex_hash'),
+('white_cat', 'white@cat.com', 'USER', 'white_cat_hash'),
+('water_fox', 'water@fox.com', 'USER', 'water_fox_hash');
 
 insert into Passwords (user_id, encrypted_password, content_id, algorithm_id, salt, length, updated_at) values
 (1, convert_to('123456789012', 'UTF8'), 1, 1, 'salt0', 12, now()),
