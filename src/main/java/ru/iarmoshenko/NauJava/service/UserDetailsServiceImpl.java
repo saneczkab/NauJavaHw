@@ -20,7 +20,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userRepository
                 .findByUsernameOrEmail(username, null)
-                .getFirst();
+                .stream()
+                .findFirst()
+                .orElse(null);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found!");
