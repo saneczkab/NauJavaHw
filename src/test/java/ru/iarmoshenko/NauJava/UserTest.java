@@ -82,4 +82,32 @@ public class UserTest extends PasswordGeneratorTest {
         Assertions.assertTrue(userRepository.findById(idToDelete).isEmpty());
         Assertions.assertTrue(passwordRepository.findByUserId(idToDelete).isEmpty());
     }
+
+    @Test
+    public void testGetUserByUsername() {
+        var firstUser = users.getFirst();
+        var foundUser = userService.getUserByUsername(firstUser.getUsername());
+
+        Assertions.assertEquals(firstUser, foundUser);
+    }
+
+    @Test
+    public void testGetUserByUsernameNoUser() {
+        var foundUser = userService.getUserByUsername("not exist");
+        Assertions.assertNull(foundUser);
+    }
+
+    @Test
+    public void testCreateUser() {
+        String username = "newuser";
+        String email = "example@mail.ai";
+        String password = "securepassword";
+        userService.createUser(username, email, password);
+
+        var foundUsers = userRepository.findByUsernameOrEmail(username, email);
+        Assertions.assertEquals(1, foundUsers.size());
+        var createdUser = foundUsers.getFirst();
+        Assertions.assertEquals(username, createdUser.getUsername());
+        Assertions.assertEquals(email, createdUser.getEmail());
+    }
 }
