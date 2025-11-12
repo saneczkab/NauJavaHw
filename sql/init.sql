@@ -44,6 +44,12 @@ CREATE TABLE UserTags (
   PRIMARY KEY (user_id, tag_id)
 );
 
+CREATE TABLE Reports (
+    id SERIAL PRIMARY KEY,
+    status varchar(32) NOT NULL DEFAULT 'CREATED',
+    content text
+);
+
 CREATE INDEX ON Passwords (user_id);
 
 ALTER TABLE Passwords ADD FOREIGN KEY (user_id) REFERENCES Users (id);
