@@ -44,6 +44,12 @@ CREATE TABLE UserTags (
   PRIMARY KEY (user_id, tag_id)
 );
 
+CREATE TABLE Reports (
+    id SERIAL PRIMARY KEY,
+    status varchar(32) NOT NULL DEFAULT 'CREATED',
+    content text
+);
+
 CREATE INDEX ON Passwords (user_id);
 
 ALTER TABLE Passwords ADD FOREIGN KEY (user_id) REFERENCES Users (id);
@@ -82,7 +88,8 @@ insert into Tags (name, description, color_hex) values
 insert into Users (username, email, role, password_hash) values
 ('alex', 'alex@mail.com', 'ADMIN', 'alex_hash'),
 ('white_cat', 'white@cat.com', 'USER', 'white_cat_hash'),
-('water_fox', 'water@fox.com', 'USER', 'water_fox_hash');
+('water_fox', 'water@fox.com', 'USER', 'water_fox_hash'),
+('admin', 'admin@admin.ru', 'ADMIN', '$2a$10$nPyt29KwY4JarZvISsQZsudVx8Lp96Xny0V0648QtGtj0y18z3jP2');
 
 insert into Passwords (user_id, encrypted_password, content_id, algorithm_id, salt, length, updated_at) values
 (1, convert_to('123456789012', 'UTF8'), 1, 1, 'salt0', 12, now()),
