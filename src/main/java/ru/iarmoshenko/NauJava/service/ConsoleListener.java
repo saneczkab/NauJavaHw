@@ -13,8 +13,8 @@ public class ConsoleListener {
     @Autowired
     private CommandProcessor commandProcessor;
 
-    @Bean
-    @PostConstruct
+    // @Bean
+    // @PostConstruct
     public CommandLineRunner commandScanner()
     {
         return args ->

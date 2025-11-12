@@ -7,8 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Contents")
-public class Content {
+@Table(name = "Tags")
+public class Tag {
     @Id
     @GeneratedValue
     private int id;
@@ -16,18 +16,18 @@ public class Content {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column()
+    @Column
     private String description;
 
-    @Column(unique = true, nullable = false)
-    private String usedSymbols;
+    @Column(nullable = false)
+    private String colorHex;
 
-    protected Content() {}
+    protected Tag() {}
 
-    public Content(String name, String description, String usedSymbols) {
+    public Tag(String name, String description, String colorHex) {
         setName(name);
         setDescription(description);
-        setUsedSymbols(usedSymbols);
+        setColorHex(colorHex);
     }
 
     public int getId() {
@@ -54,11 +54,11 @@ public class Content {
         this.description = description;
     }
 
-    public String getUsedSymbols() {
-        return usedSymbols;
+    public String getColorHex() {
+        return colorHex;
     }
 
-    public void setUsedSymbols(String usedSymbols) {
-        this.usedSymbols = usedSymbols;
+    public void setColorHex(String colorHex) {
+        this.colorHex = colorHex;
     }
 }

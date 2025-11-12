@@ -2,7 +2,7 @@ package ru.iarmoshenko.NauJava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.iarmoshenko.NauJava.entity.Content;
+import ru.iarmoshenko.NauJava.entity.LegacyContent;
 
 @Component
 public class CommandProcessor
@@ -120,15 +120,15 @@ public class CommandProcessor
 
     }
 
-    private Content parseContent(String contentStr) {
+    private LegacyContent parseContent(String contentStr) {
         return switch (contentStr) {
-            case "letters" -> Content.LETTERS;
-            case "digits" -> Content.DIGITS;
-            case "symbols" -> Content.SYMBOLS;
-            case "ld" -> Content.LETTERS_DIGITS;
-            case "ls" -> Content.LETTERS_SYMBOLS;
-            case "ds" -> Content.DIGITS_SYMBOLS;
-            case "mix" -> Content.MIXED;
+            case "letters" -> LegacyContent.LETTERS;
+            case "digits" -> LegacyContent.DIGITS;
+            case "symbols" -> LegacyContent.SYMBOLS;
+            case "ld" -> LegacyContent.LETTERS_DIGITS;
+            case "ls" -> LegacyContent.LETTERS_SYMBOLS;
+            case "ds" -> LegacyContent.DIGITS_SYMBOLS;
+            case "mix" -> LegacyContent.MIXED;
             default -> null;
         };
     }

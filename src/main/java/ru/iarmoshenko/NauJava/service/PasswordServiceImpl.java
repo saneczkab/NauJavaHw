@@ -2,9 +2,9 @@ package ru.iarmoshenko.NauJava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.iarmoshenko.NauJava.dbConnection.PasswordRepository;
-import ru.iarmoshenko.NauJava.entity.Content;
-import ru.iarmoshenko.NauJava.entity.Password;
+import ru.iarmoshenko.NauJava.repository.LegacyPasswordRepository;
+import ru.iarmoshenko.NauJava.entity.LegacyContent;
+import ru.iarmoshenko.NauJava.entity.LegacyPassword;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -14,12 +14,12 @@ import java.util.List;
 
 @Service
 public class PasswordServiceImpl implements PasswordService {
-    private final PasswordRepository passwordRepository;
+    private final LegacyPasswordRepository passwordRepository;
     private SecretKey secretKey;
     private Cipher cipher;
 
     @Autowired
-    public PasswordServiceImpl(PasswordRepository passwordRepository) {
+    public PasswordServiceImpl(LegacyPasswordRepository passwordRepository) {
         this.passwordRepository = passwordRepository;
         prepareCipher();
     }
@@ -37,7 +37,7 @@ public class PasswordServiceImpl implements PasswordService {
         }
     }
 
-    private String generateRawPassword(int length, Content content) {
+    private String generateRawPassword(int length, LegacyContent content) {
         var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGIHJKLMNOPQRSTUVWXYZ";
         var digits = "0123456789";
         var symbols = "!@#$%^&*()_-+={[]};:'\",<.>/?\\|~`";
@@ -61,13 +61,13 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public String generatePassword(int length, Content content, long userId) {
+    public String generatePassword(int length, LegacyContent content, long userId) {
         var rawPassword = generateRawPassword(length, content);
         var salt = Long.toHexString(Double.doubleToLongBits(Math.random()));
         var encryptedPassword = encryptPassword(rawPassword, salt);
         var newPasswordId = new Date().getTime(); // Заглушка, пока нет бд
 
-        var password = new Password(newPasswordId, userId, encryptedPassword, content, salt, length);
+        var password = new LegacyPassword(newPasswordId, userId, encryptedPassword, content, salt, length);
         savePassword(password);
 
         return rawPassword;
@@ -103,17 +103,17 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public Password getPasswordById(Long id) {
+    public LegacyPassword getPasswordById(Long id) {
         return passwordRepository.read(id);
     }
 
     @Override
-    public List<Password> getUserPasswords(Long userId) {
+    public List<LegacyPassword> getUserPasswords(Long userId) {
         return passwordRepository.getUserPasswords(userId);
     }
 
     @Override
-    public void savePassword(Password password) {
+    public void savePassword(LegacyPassword password) {
         passwordRepository.create(password);
     }
 
