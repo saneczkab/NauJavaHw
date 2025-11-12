@@ -21,3 +21,4 @@
 - `http://localhost:8080/api/users/findByUsernameOrEmail?username=water_fox`
 - `http://localhost:8080/api/users/findByUsernameOrEmail?email=white@cat.com&username=water_fox`
 5) Найти пароли, созданные пользователем с указанным id: `http://localhost:8080/api/passwords/findByUserId?userId=<userId>`
+6) Просмотр статистики приложения: `http://localhost:8080/view/stats`
