@@ -7,12 +7,36 @@ import jakarta.persistence.*;
 public class Report {
     @Id
     @GeneratedValue
-    public int id;
+    private int id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    public ReportStatus status = ReportStatus.CREATED;
+    private ReportStatus status = ReportStatus.CREATED;
 
-    @Column
-    public String content;
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ReportStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ReportStatus status) {
+        this.status = status;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
