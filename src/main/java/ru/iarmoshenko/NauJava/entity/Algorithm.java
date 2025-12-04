@@ -6,6 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Класс, представляющий сущность алгоритма шифрования в системе.
+ * Хранит информацию о криптографических алгоритмах, используемых для шифрования паролей.
+ * Отображается на таблицу "Algorithms" в базе данных.
+ */
 @Entity
 @Table(name = "Algorithms")
 public class Algorithm {

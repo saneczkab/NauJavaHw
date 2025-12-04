@@ -6,6 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Класс, представляющий сущность контента в системе.
+ * Контент определяет набор символов, используемых при генерации паролей.
+ * Отображается на таблицу "Contents" в базе данных.
+ */
 @Entity
 @Table(name = "Contents")
 public class Content {

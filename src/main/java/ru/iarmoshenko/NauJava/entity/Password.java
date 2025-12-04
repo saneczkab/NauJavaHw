@@ -6,6 +6,11 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Класс, представляющий сущность пароля в системе.
+ * Хранит информацию о зашифрованном пароле, связанную с пользователем, контентом и алгоритмом шифрования.
+ * Отображается на таблицу "Passwords" в базе данных.
+ */
 @Entity
 @Table(name = "Passwords")
 public class Password {

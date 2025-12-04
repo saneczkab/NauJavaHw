@@ -4,6 +4,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import ru.iarmoshenko.NauJava.entity.Algorithm;
 
+/**
+ * Репозиторий для работы с алгоритмами шифрования.
+ * Предоставляет CRUD операции и автоматически экспонируется как REST API.
+ */
 @RepositoryRestResource(path = "algorithms")
 public interface AlgorithmRepository extends CrudRepository<Algorithm, Integer> {
 }

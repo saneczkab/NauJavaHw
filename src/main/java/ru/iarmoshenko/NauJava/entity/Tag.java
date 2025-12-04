@@ -6,6 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Класс, представляющий сущность тега в системе.
+ * Тег используется для категоризации и классификации контента.
+ * Отображается на таблицу "Tags" в базе данных.
+ */
 @Entity
 @Table(name = "Tags")
 public class Tag {

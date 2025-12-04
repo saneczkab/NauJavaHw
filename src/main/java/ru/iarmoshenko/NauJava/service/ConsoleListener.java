@@ -8,11 +8,21 @@ import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
+/**
+ * Компонент для обработки консольного ввода.
+ * Предоставляет интерфейс командной строки для взаимодействия с приложением.
+ */
 @Component
 public class ConsoleListener {
     @Autowired
     private CommandProcessor commandProcessor;
 
+    /**
+     * Создает CommandLineRunner для сканирования ввода с консоли.
+     * Метод закомментирован, но может быть активирован при необходимости.
+     *
+     * @return CommandLineRunner для обработки консольных команд
+     */
     // @Bean
     // @PostConstruct
     public CommandLineRunner commandScanner()

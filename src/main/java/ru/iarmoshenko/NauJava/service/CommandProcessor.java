@@ -4,18 +4,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.iarmoshenko.NauJava.entity.LegacyContent;
 
+/**
+ * Компонент для обработки консольных команд.
+ * Парсит и выполняет команды, введенные пользователем через консоль.
+ */
 @Component
 public class CommandProcessor
 {
     private final PasswordService passwordService;
     private final long userId = 1L; // Заглушка, пока нет бд
 
+    /**
+     * Конструктор компонента.
+     *
+     * @param passwordService сервис для работы с паролями
+     */
     @Autowired
     public CommandProcessor(PasswordService passwordService)
     {
         this.passwordService = passwordService;
     }
 
+    /**
+     * Обрабатывает введенную пользователем команду.
+     *
+     * @param input строка с командой и аргументами
+     */
     public void processCommand(String input)
     {
         var cmd = input.split(" ");
@@ -30,6 +44,9 @@ public class CommandProcessor
         }
     }
 
+    /**
+     * Выводит справочную информацию о доступных командах.
+     */
     private void printHelp()
     {
         System.out.println("Доступные команды:");
@@ -50,6 +67,11 @@ public class CommandProcessor
         System.out.println("exit - Выход из программы");
     }
 
+    /**
+     * Обрабатывает команду удаления пароля.
+     *
+     * @param cmd массив с командой и аргументами
+     */
     private void deleteCommand(String[] cmd) {
         if (cmd.length != 2) {
             System.out.println("Неверное количество аргументов. Использование: delete <id>");
@@ -74,6 +96,9 @@ public class CommandProcessor
         System.out.println("Пароль с ID " + id + " успешно удалён!");
     }
 
+    /**
+     * Обрабатывает команду вывода списка паролей.
+     */
     private void listCommand() {
         var passwords = passwordService.getUserPasswords(userId);
 
@@ -88,6 +113,11 @@ public class CommandProcessor
         }
     }
 
+    /**
+     * Обрабатывает команду создания нового пароля.
+     *
+     * @param cmd массив с командой и аргументами
+     */
     private void newCommand(String[] cmd) {
         if (cmd.length != 3) {
             System.out.println("Неверное количество аргументов. Использование: new <length> <content>");
@@ -120,6 +150,12 @@ public class CommandProcessor
 
     }
 
+    /**
+     * Парсит строковое представление типа контента в перечисление.
+     *
+     * @param contentStr строковое представление типа контента
+     * @return соответствующий элемент перечисления LegacyContent или null, если не найден
+     */
     private LegacyContent parseContent(String contentStr) {
         return switch (contentStr) {
             case "letters" -> LegacyContent.LETTERS;

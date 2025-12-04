@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+/**
+ * Класс, представляющий сущность пользователя в системе.
+ * Отображается на таблицу "Users" в базе данных.
+ */
 @Entity
 @Table(name = "Users")
 public class User {
