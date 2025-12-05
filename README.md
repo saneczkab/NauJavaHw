@@ -5,7 +5,10 @@
 
 ## SQL-скрипты
 В папке `sql` находятся скрипты:
-1) `init.sql` - создание необходимых таблиц и заполнение их тестовыми данными.
+1) `init.sql` - создание необходимых таблиц и заполнение их тестовыми данными. 
+Также создаётся тестовый пользователь с правами администратора:  
+   Логин: `admin`  
+   Пароль: `admin`
 2) `cleanup.sql` - удаление используемых приложением таблиц из базы данных.
 
 Скрипты рассчитаны на PostgreSQL.
@@ -21,3 +24,11 @@
 - `http://localhost:8080/api/users/findByUsernameOrEmail?username=water_fox`
 - `http://localhost:8080/api/users/findByUsernameOrEmail?email=white@cat.com&username=water_fox`
 5) Найти пароли, созданные пользователем с указанным id: `http://localhost:8080/api/passwords/findByUserId?userId=<userId>`
+6) Просмотр статистики приложения: `http://localhost:8080/view/stats`
+7) Сформировать новый отчёт: `http://localhost:8080/api/report/generate`  
+Отчёт содержит количество пользователей и список сгенерированных приложением паролей.  
+В отличие от пункта 6, отчёт сохраняется в базе данных.  
+Пример ответа: `Created report with ID: 1`
+8) Просмотр содержимого отчёта по id: `http://localhost:8080/api/report/<reportId>`  
+Пример: `http://localhost:8080/api/report/1`  
+`init.sql` не записывает в базу тестовые отчёты, поэтому для проверки работы необходимо сначала создать отчёт (пункт 7).
