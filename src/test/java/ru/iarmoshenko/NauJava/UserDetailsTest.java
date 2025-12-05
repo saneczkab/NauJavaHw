@@ -14,6 +14,9 @@ import ru.iarmoshenko.NauJava.service.UserDetailsServiceImpl;
 
 import java.util.List;
 
+/**
+ * Тесты для проверки функционала UserDetailsService.
+ */
 @SpringBootTest
 public class UserDetailsTest {
     private UserRepository userRepository;

@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.iarmoshenko.NauJava.entity.Password;
 
+/**
+ * Тесты для проверки функционала контроллера паролей.
+ * Тесты написаны на базе RestAssured.
+ */
 @SpringBootTest
 public class PasswordControllerTest extends PasswordGeneratorTest {
     @BeforeEach

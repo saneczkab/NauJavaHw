@@ -18,6 +18,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Абстрактный класс для генерации тестовых данных пользователей и паролей.
+ */
 public abstract class PasswordGeneratorTest {
     protected List<Password> passwords;
     protected List<User> users;

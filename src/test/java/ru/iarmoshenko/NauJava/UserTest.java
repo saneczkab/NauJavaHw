@@ -3,6 +3,9 @@ package ru.iarmoshenko.NauJava;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * Тесты для проверки функционала репозитория и сервиса пользователей.
+ */
 @SpringBootTest
 public class UserTest extends PasswordGeneratorTest {
     @Test

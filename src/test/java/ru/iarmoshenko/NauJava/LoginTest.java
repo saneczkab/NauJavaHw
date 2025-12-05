@@ -11,6 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Duration;
 
+/**
+ * Тесты для проверки функционала логина и выхода из аккаунта.
+ * Тесты написаны на базе Selenium.
+ */
 @SpringBootTest
 public class LoginTest extends PasswordGeneratorTest {
     WebDriver driver;
