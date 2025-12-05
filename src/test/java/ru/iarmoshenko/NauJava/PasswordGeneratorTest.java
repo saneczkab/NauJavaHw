@@ -1,14 +1,13 @@
 package ru.iarmoshenko.NauJava;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.iarmoshenko.NauJava.customRepository.PasswordRepositoryCustom;
 import ru.iarmoshenko.NauJava.customRepository.UserRepositoryCustom;
-import ru.iarmoshenko.NauJava.entity.Algorithm;
-import ru.iarmoshenko.NauJava.entity.Content;
-import ru.iarmoshenko.NauJava.entity.Password;
-import ru.iarmoshenko.NauJava.entity.User;
+import ru.iarmoshenko.NauJava.entity.*;
 import ru.iarmoshenko.NauJava.repository.AlgorithmRepository;
 import ru.iarmoshenko.NauJava.repository.ContentRepository;
 import ru.iarmoshenko.NauJava.repository.PasswordRepository;
@@ -41,6 +40,9 @@ public abstract class PasswordGeneratorTest {
     @Autowired
     protected UserService userService;
 
+    @Autowired
+    protected PasswordEncoder passwordEncoder;
+
     private static int id = 0;
 
     public PasswordGeneratorTest() {}
@@ -50,6 +52,14 @@ public abstract class PasswordGeneratorTest {
         users = generateUsers(5);
         passwords = generatePasswords(5, users);
         saveAllPasswordEntities(passwords);
+        createAdminUser();
+    }
+
+    private void createAdminUser() {
+        var passHash = passwordEncoder.encode("admin");
+        var adminUser = new User("admin", "admin@admin.ru", passHash);
+        adminUser.setRole(Role.ADMIN);
+        userRepository.save(adminUser);
     }
 
     @AfterEach
