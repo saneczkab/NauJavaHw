@@ -125,4 +125,18 @@ public class Password {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return "Password{" +
+                "id=" + id +
+                ", user=" + user.getUsername() +
+                ", encryptedPassword=" + Arrays.toString(encryptedPassword) +
+                ", content=" + content.getName() +
+                ", algorithm=" + algorithm.getName() +
+                ", salt='" + salt + '\'' +
+                ", length=" + length +
+                ", updatedAt=" + updatedAt +
+                "}<br/>";
+    }
 }
