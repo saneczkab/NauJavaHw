@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.iarmoshenko.NauJava.entity.*;
 import ru.iarmoshenko.NauJava.repository.PasswordRepository;
 import ru.iarmoshenko.NauJava.repository.UserRepository;
+import ru.iarmoshenko.NauJava.service.PasswordService;
 import ru.iarmoshenko.NauJava.service.UserService;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,8 @@ public abstract class PasswordGeneratorTest {
 
     @Autowired
     protected PasswordRepository passwordRepository;
+    @Autowired
+    protected PasswordService passwordService;
 
     @Autowired
     protected UserRepository userRepository;
@@ -31,18 +34,18 @@ public abstract class PasswordGeneratorTest {
     @Autowired
     protected PasswordEncoder passwordEncoder;
 
-    private static int id = 0;
-
     public PasswordGeneratorTest() {}
 
     @BeforeEach
     public void setUp() {
         users = generateUsers(5);
         passwords = generatePasswords(5, users);
-        saveAllPasswordEntities(passwords);
         createAdminUser();
     }
 
+    /**
+     * Создание пользователя с правами администратора для тестов, сохранение в базе.
+     */
     private void createAdminUser() {
         var passHash = passwordEncoder.encode("admin");
         var adminUser = new User("admin", "admin@admin.ru", passHash);
@@ -56,39 +59,42 @@ public abstract class PasswordGeneratorTest {
         userRepository.deleteAll();
     }
 
-    public static List<Password> generatePasswords(int count, List<User> users) {
+    /**
+     * Генерация тестовых паролей для заданного списка пользователей, сохранение паролей в базе.
+     * @param count число паролей на пользователя
+     * @param users список пользователей
+     * @return
+     */
+    public List<Password> generatePasswords(int count, List<User> users) {
         var passwords = new ArrayList<Password>();
         var now = LocalDateTime.now();
 
         for (int i = 0; i < count; i++) {
             for (var user : users) {
                 var encryptedPassword = new byte[]{(byte) i};
-                var password = new Password(user, encryptedPassword, ContentType.MIX, "salt" + id, id, now);
-
-                id++;
+                var password = new Password(user, encryptedPassword, ContentType.MIX, "salt", i, now);
                 passwords.add(password);
+                passwordRepository.save(password);
             }
         }
 
         return passwords;
     }
 
-    public static List<User> generateUsers(int count) {
+    /**
+     * Генерация тестовых пользователей, сохранение их в базе.
+     * @param count число пользователей для генерации
+     * @return список сгенерированных пользователей
+     */
+    public List<User> generateUsers(int count) {
         var result = new ArrayList<User>();
 
         for (int i = 0; i < count; i++) {
-            var user = new User("username" + id, "email" + id + "@example.com", "passwordHash" + id);
-            id++;
+            var user = new User("username" + i, "email" + i + "@example.com", "passwordHash" + i);
             result.add(user);
+            userRepository.save(user);
         }
 
         return result;
-    }
-
-    public void saveAllPasswordEntities(List<Password> passwords) {
-        for (var password : passwords) {
-            userRepository.save(password.getUser());
-            passwordRepository.save(password);
-        }
     }
 }
