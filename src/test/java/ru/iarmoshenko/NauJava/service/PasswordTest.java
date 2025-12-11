@@ -27,20 +27,6 @@ public class PasswordTest extends PasswordGeneratorTest {
         checkPasswordsEquality(secondPasswords, actualSecondUserPasswords);
     }
 
-    @Test
-    public void testFindByUserIdCustom() {
-        var firstUser = users.get(0);
-        var secondUser = users.get(1);
-        var firstPasswords = passwords.stream().filter(p -> p.getUser().equals(firstUser)).toList();
-        var secondPasswords = passwords.stream().filter(p -> p.getUser().equals(secondUser)).toList();
-
-        var actualFirstUserPasswords = passwordRepositoryCustom.findByUserId(firstUser.getId());
-        checkPasswordsEquality(firstPasswords, actualFirstUserPasswords);
-
-        var actualSecondUserPasswords = passwordRepositoryCustom.findByUserId(secondUser.getId());
-        checkPasswordsEquality(secondPasswords, actualSecondUserPasswords);
-    }
-
     private void checkPasswordsEquality(List<Password> expected, List<Password> actual) {
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(expected.size(), actual.size());

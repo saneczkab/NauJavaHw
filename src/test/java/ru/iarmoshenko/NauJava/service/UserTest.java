@@ -25,21 +25,6 @@ public class UserTest extends PasswordGeneratorTest {
     }
 
     @Test
-    public void testFindUserByUsernameOrEmailSingleUserCustom() {
-        var firstUser = users.get(0);
-        var secondUser = users.get(1);
-
-        var foundByUsername = userRepositoryCustom.findByUsernameOrEmail(firstUser.getUsername(), null);
-        var foundByEmail = userRepositoryCustom.findByUsernameOrEmail(null, firstUser.getEmail());
-
-        Assertions.assertEquals(1, foundByUsername.size());
-        Assertions.assertTrue(foundByUsername.contains(firstUser));
-        Assertions.assertFalse(foundByUsername.contains(secondUser));
-
-        Assertions.assertEquals(foundByUsername, foundByEmail);
-    }
-
-    @Test
     public void testFindUserByUsernameOrEmailMultipleUsers() {
         var firstUser = users.get(0);
         var secondUser = users.get(1);
@@ -47,20 +32,6 @@ public class UserTest extends PasswordGeneratorTest {
         var firstUsername = firstUser.getUsername();
         var secondEmail = secondUser.getEmail();
         var foundUsers = userRepository.findByUsernameOrEmail(firstUsername, secondEmail);
-
-        Assertions.assertEquals(2, foundUsers.size());
-        Assertions.assertTrue(foundUsers.contains(firstUser));
-        Assertions.assertTrue(foundUsers.contains(secondUser));
-    }
-
-    @Test
-    public void testFindUserByUsernameOrEmailMultipleUsersCustom() {
-        var firstUser = users.get(0);
-        var secondUser = users.get(1);
-
-        var firstUsername = firstUser.getUsername();
-        var secondEmail = secondUser.getEmail();
-        var foundUsers = userRepositoryCustom.findByUsernameOrEmail(firstUsername, secondEmail);
 
         Assertions.assertEquals(2, foundUsers.size());
         Assertions.assertTrue(foundUsers.contains(firstUser));

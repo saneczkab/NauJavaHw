@@ -4,8 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.iarmoshenko.NauJava.customRepository.PasswordRepositoryCustom;
-import ru.iarmoshenko.NauJava.customRepository.UserRepositoryCustom;
 import ru.iarmoshenko.NauJava.entity.*;
 import ru.iarmoshenko.NauJava.repository.PasswordRepository;
 import ru.iarmoshenko.NauJava.repository.UserRepository;
@@ -24,13 +22,9 @@ public abstract class PasswordGeneratorTest {
 
     @Autowired
     protected PasswordRepository passwordRepository;
-    @Autowired
-    protected PasswordRepositoryCustom passwordRepositoryCustom;
 
     @Autowired
     protected UserRepository userRepository;
-    @Autowired
-    protected UserRepositoryCustom userRepositoryCustom;
     @Autowired
     protected UserService userService;
 
