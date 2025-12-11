@@ -3,6 +3,9 @@ package ru.iarmoshenko.NauJava.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 
+/**
+ * Файл конфигурации MVC для статических ресурсов.
+ */
 @Configuration
 @EnableWebMvc
 public class MVCConfig implements WebMvcConfigurer {

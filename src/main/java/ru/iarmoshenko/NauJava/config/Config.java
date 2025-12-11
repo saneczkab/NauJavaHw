@@ -19,6 +19,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 import ru.iarmoshenko.NauJava.entity.LegacyPassword;
 
+/**
+ * Файл конфигурации Spring Security и бинов приложения.
+ */
 @Configuration
 @EnableWebSecurity
 public class Config {
