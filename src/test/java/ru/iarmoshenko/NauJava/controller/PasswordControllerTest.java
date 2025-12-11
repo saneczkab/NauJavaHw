@@ -1,10 +1,11 @@
-package ru.iarmoshenko.NauJava;
+package ru.iarmoshenko.NauJava.controller;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.iarmoshenko.NauJava.PasswordGeneratorTest;
 import ru.iarmoshenko.NauJava.entity.Password;
 
 /**

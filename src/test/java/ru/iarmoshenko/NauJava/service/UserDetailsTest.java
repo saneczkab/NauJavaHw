@@ -1,4 +1,4 @@
-package ru.iarmoshenko.NauJava;
+package ru.iarmoshenko.NauJava.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.iarmoshenko.NauJava.entity.User;
 import ru.iarmoshenko.NauJava.repository.UserRepository;
-import ru.iarmoshenko.NauJava.service.UserDetailsServiceImpl;
 
 import java.util.List;
 

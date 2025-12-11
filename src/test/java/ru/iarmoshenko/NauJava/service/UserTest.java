@@ -1,7 +1,8 @@
-package ru.iarmoshenko.NauJava;
+package ru.iarmoshenko.NauJava.service;
 
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.iarmoshenko.NauJava.PasswordGeneratorTest;
 
 /**
  * Тесты для проверки функционала репозитория и сервиса пользователей.

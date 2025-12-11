@@ -1,8 +1,9 @@
-package ru.iarmoshenko.NauJava;
+package ru.iarmoshenko.NauJava.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.iarmoshenko.NauJava.PasswordGeneratorTest;
 import ru.iarmoshenko.NauJava.entity.Password;
 
 import java.util.List;

@@ -1,15 +1,12 @@
 package ru.iarmoshenko.NauJava;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.iarmoshenko.NauJava.customRepository.PasswordRepositoryCustom;
 import ru.iarmoshenko.NauJava.customRepository.UserRepositoryCustom;
 import ru.iarmoshenko.NauJava.entity.*;
-import ru.iarmoshenko.NauJava.repository.AlgorithmRepository;
-import ru.iarmoshenko.NauJava.repository.ContentRepository;
 import ru.iarmoshenko.NauJava.repository.PasswordRepository;
 import ru.iarmoshenko.NauJava.repository.UserRepository;
 import ru.iarmoshenko.NauJava.service.UserService;
@@ -29,12 +26,6 @@ public abstract class PasswordGeneratorTest {
     protected PasswordRepository passwordRepository;
     @Autowired
     protected PasswordRepositoryCustom passwordRepositoryCustom;
-
-    @Autowired
-    protected ContentRepository contentRepository;
-
-    @Autowired
-    protected AlgorithmRepository algorithmRepository;
 
     @Autowired
     protected UserRepository userRepository;
@@ -68,8 +59,6 @@ public abstract class PasswordGeneratorTest {
     @AfterEach
     public void cleanUp() {
         passwordRepository.deleteAll();
-        contentRepository.deleteAll();
-        algorithmRepository.deleteAll();
         userRepository.deleteAll();
     }
 
@@ -80,9 +69,7 @@ public abstract class PasswordGeneratorTest {
         for (int i = 0; i < count; i++) {
             for (var user : users) {
                 var encryptedPassword = new byte[]{(byte) i};
-                var content = new Content("name" + id, "description" + id);
-                var algo = new Algorithm("name" + id, id, "mode" + id);
-                var password = new Password(user, encryptedPassword, content, algo, "salt" + id, id, now);
+                var password = new Password(user, encryptedPassword, ContentType.MIX, "salt" + id, id, now);
 
                 id++;
                 passwords.add(password);
@@ -107,8 +94,6 @@ public abstract class PasswordGeneratorTest {
     public void saveAllPasswordEntities(List<Password> passwords) {
         for (var password : passwords) {
             userRepository.save(password.getUser());
-            contentRepository.save(password.getContent());
-            algorithmRepository.save(password.getAlgorithm());
             passwordRepository.save(password);
         }
     }
