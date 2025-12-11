@@ -2,8 +2,7 @@ package ru.iarmoshenko.NauJava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.iarmoshenko.NauJava.entity.Algorithm;
-import ru.iarmoshenko.NauJava.entity.Content;
+import ru.iarmoshenko.NauJava.entity.ContentType;
 import ru.iarmoshenko.NauJava.entity.Password;
 import ru.iarmoshenko.NauJava.repository.PasswordRepository;
 import ru.iarmoshenko.NauJava.repository.UserRepository;
@@ -41,8 +40,8 @@ public class PasswordServiceImpl implements PasswordService {
         }
     }
 
-    private String generateRawPassword(int length, Content content) {
-        var chars = content.getUsedSymbols();
+    private String generateRawPassword(int length, ContentType content) {
+        var chars = content.getSymbols();
 
         var result = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -54,14 +53,14 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public String generatePassword(int length, Content content, Algorithm algorithm, Integer userId) {
+    public String generatePassword(int length, ContentType content, Integer userId) {
         var rawPassword = generateRawPassword(length, content);
         var user = userRepository.findById(userId).orElseThrow();
         var salt = Long.toHexString(Double.doubleToLongBits(Math.random()));
         var encryptedPassword = encryptPassword(rawPassword, salt);
         var updateAt = LocalDateTime.now();
 
-        var password = new Password(user, encryptedPassword ,content, algorithm, salt, length, updateAt);
+        var password = new Password(user, encryptedPassword ,content, salt, length, updateAt);
         savePassword(password);
 
         return rawPassword;

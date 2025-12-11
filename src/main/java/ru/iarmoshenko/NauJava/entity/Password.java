@@ -25,13 +25,9 @@ public class Password {
     @Column(nullable = false)
     private byte[] encryptedPassword;
 
-    @ManyToOne
-    @JoinColumn(name = "content_id", nullable = false)
-    private Content content;
-
-    @ManyToOne
-    @JoinColumn(name = "algorithm_id", nullable = false)
-    private Algorithm algorithm;
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(nullable = false)
+    private ContentType content;
 
     @Column(nullable = false)
     private String salt;
@@ -44,12 +40,11 @@ public class Password {
 
     protected Password() {}
 
-    public Password(User user, byte[] encryptedPassword, Content content, Algorithm algorithm,
+    public Password(User user, byte[] encryptedPassword, ContentType content,
                     String salt, int length, LocalDateTime updatedAt) {
         setUser(user);
         setEncryptedPassword(encryptedPassword);
         setContent(content);
-        setAlgorithm(algorithm);
         setSalt(salt);
         setLength(length);
         setUpdatedAt(updatedAt);
@@ -64,7 +59,7 @@ public class Password {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, Arrays.hashCode(encryptedPassword), content, algorithm, salt, length, updatedAt);
+        return Objects.hash(id, user, Arrays.hashCode(encryptedPassword), content, salt, length, updatedAt);
     }
 
     public int getId() {
@@ -91,20 +86,12 @@ public class Password {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public Content getContent() {
+    public ContentType getContent() {
         return content;
     }
 
-    public void setContent(Content content) {
+    public void setContent(ContentType content) {
         this.content = content;
-    }
-
-    public Algorithm getAlgorithm() {
-        return algorithm;
-    }
-
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
     }
 
     public String getSalt() {
@@ -137,8 +124,7 @@ public class Password {
                 "id=" + id +
                 ", user=" + user.getUsername() +
                 ", encryptedPassword=" + Arrays.toString(encryptedPassword) +
-                ", content=" + content.getName() +
-                ", algorithm=" + algorithm.getName() +
+                ", content=" + content.toString() +
                 ", salt='" + salt + '\'' +
                 ", length=" + length +
                 ", updatedAt=" + updatedAt +
