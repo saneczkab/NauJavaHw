@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>App stats</title>
+</head>
+<body>
+
+<h1>Password generator report</h1>
+
+<h2>Generated passwords (not app account passwords)</h2>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Encrypted password (raw)</th>
+        <th>Password content</th>
+        <th>Encryption algorithm</th>
+        <th>Salt</th>
+        <th>Length</th>
+        <th>Last update</th>
+    </tr>
+    <tr th:each="password : ${passwords}">
+        <td th:text="${password.id}"></td>
+        <td th:text="${password.user.id}"></td>
+        <td th:text="${password.encryptedPassword}"></td>
+        <td th:text="${password.content.name}"></td>
+        <td th:text="${password.algorithm.name}"></td>
+        <td th:text="${password.salt}"></td>
+        <td th:text="${password.length}"></td>
+        <td th:text="${password.updatedAt}"></td>
+    </tr>
+</table>
+<p>Password stats generation time: <span th:text="${passwordsTimeElapsed}" /> ms </p>
+
+<h2>User stats</h2>
+<p>User count: <span th:text="${userCount}" /> </p>
+<p>User stats generation time: <span th:text="${userCountTimeElapsed}" /> ms </p>
+
+<p>Total generation time: <span th:text="${totalTimeElapsed}" /> ms </p>
+
+</body>
+</html>

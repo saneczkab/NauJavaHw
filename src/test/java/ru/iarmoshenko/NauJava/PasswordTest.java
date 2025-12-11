@@ -7,6 +7,9 @@ import ru.iarmoshenko.NauJava.entity.Password;
 
 import java.util.List;
 
+/**
+ * Тесты для проверки функционала репозитория паролей.
+ */
 @SpringBootTest
 public class PasswordTest extends PasswordGeneratorTest {
     @Test

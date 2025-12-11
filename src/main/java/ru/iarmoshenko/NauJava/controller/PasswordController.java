@@ -9,12 +9,22 @@ import ru.iarmoshenko.NauJava.repository.PasswordRepository;
 
 import java.util.List;
 
+/**
+ * Контроллер для работы с паролями.
+ * */
 @RestController
 @RequestMapping("/api/passwords")
 public class PasswordController {
     @Autowired
     private PasswordRepository passwordRepository;
 
+    /**
+     * GET-запрос на получение списка паролей по id пользователя.
+     * Пример: GET /api/passwords/findByUserId?userId=1
+     *
+     * @param userId - id пользователя
+     * @return список паролей пользователя (объекты Password)
+     * */
     @GetMapping("/findByUserId")
     public List<Password> findByUserId(Integer userId) {
         return passwordRepository.findByUserId(userId);
