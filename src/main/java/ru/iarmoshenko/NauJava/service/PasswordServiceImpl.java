@@ -2,25 +2,29 @@ package ru.iarmoshenko.NauJava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.iarmoshenko.NauJava.repository.LegacyPasswordRepository;
-import ru.iarmoshenko.NauJava.entity.LegacyContent;
-import ru.iarmoshenko.NauJava.entity.LegacyPassword;
+import ru.iarmoshenko.NauJava.entity.Algorithm;
+import ru.iarmoshenko.NauJava.entity.Content;
+import ru.iarmoshenko.NauJava.entity.Password;
+import ru.iarmoshenko.NauJava.repository.PasswordRepository;
+import ru.iarmoshenko.NauJava.repository.UserRepository;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class PasswordServiceImpl implements PasswordService {
-    private final LegacyPasswordRepository passwordRepository;
+    private final PasswordRepository passwordRepository;
+    private final UserRepository userRepository;
     private SecretKey secretKey;
     private Cipher cipher;
 
     @Autowired
-    public PasswordServiceImpl(LegacyPasswordRepository passwordRepository) {
+    public PasswordServiceImpl(PasswordRepository passwordRepository, UserRepository userRepository) {
         this.passwordRepository = passwordRepository;
+        this.userRepository = userRepository;
         prepareCipher();
     }
 
@@ -37,19 +41,8 @@ public class PasswordServiceImpl implements PasswordService {
         }
     }
 
-    private String generateRawPassword(int length, LegacyContent content) {
-        var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGIHJKLMNOPQRSTUVWXYZ";
-        var digits = "0123456789";
-        var symbols = "!@#$%^&*()_-+={[]};:'\",<.>/?\\|~`";
-        var chars = switch (content) {
-            case LETTERS -> letters;
-            case DIGITS -> digits;
-            case SYMBOLS -> symbols;
-            case LETTERS_DIGITS -> letters + digits;
-            case LETTERS_SYMBOLS -> letters + symbols;
-            case DIGITS_SYMBOLS -> digits + symbols;
-            case MIXED -> letters + digits + symbols;
-        };
+    private String generateRawPassword(int length, Content content) {
+        var chars = content.getUsedSymbols();
 
         var result = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -61,13 +54,14 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public String generatePassword(int length, LegacyContent content, long userId) {
+    public String generatePassword(int length, Content content, Algorithm algorithm, Integer userId) {
         var rawPassword = generateRawPassword(length, content);
+        var user = userRepository.findById(userId).orElseThrow();
         var salt = Long.toHexString(Double.doubleToLongBits(Math.random()));
         var encryptedPassword = encryptPassword(rawPassword, salt);
-        var newPasswordId = new Date().getTime(); // Заглушка, пока нет бд
+        var updateAt = LocalDateTime.now();
 
-        var password = new LegacyPassword(newPasswordId, userId, encryptedPassword, content, salt, length);
+        var password = new Password(user, encryptedPassword ,content, algorithm, salt, length, updateAt);
         savePassword(password);
 
         return rawPassword;
@@ -103,22 +97,22 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public LegacyPassword getPasswordById(Long id) {
-        return passwordRepository.read(id);
+    public List<Password> getPasswordById(Integer id) {
+        return passwordRepository.findByUserId(id);
     }
 
     @Override
-    public List<LegacyPassword> getUserPasswords(Long userId) {
-        return passwordRepository.getUserPasswords(userId);
+    public List<Password> getUserPasswords(Integer userId) {
+        return passwordRepository.findByUserId(userId);
     }
 
     @Override
-    public void savePassword(LegacyPassword password) {
-        passwordRepository.create(password);
+    public void savePassword(Password password) {
+        passwordRepository.save(password);
     }
 
     @Override
-    public void deletePassword(Long id) {
-        passwordRepository.delete(id);
+    public void deletePassword(Integer id) {
+        passwordRepository.deleteById(id);
     }
 }

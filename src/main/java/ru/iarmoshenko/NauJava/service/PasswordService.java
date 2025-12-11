@@ -1,7 +1,6 @@
 package ru.iarmoshenko.NauJava.service;
 
-import ru.iarmoshenko.NauJava.entity.LegacyContent;
-import ru.iarmoshenko.NauJava.entity.LegacyPassword;
+import ru.iarmoshenko.NauJava.entity.*;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public interface PasswordService {
      * @param userId идентификатор пользователя
      * @return сгенерированный пароль в виде строки
      */
-    String generatePassword(int length, LegacyContent content, long userId);
+    String generatePassword(int length, Content content, Algorithm algorithm, Integer userId);
 
     /**
      * Шифрует пароль с использованием соли.
@@ -44,7 +43,7 @@ public interface PasswordService {
      * @param userId идентификатор пользователя
      * @return список паролей пользователя
      */
-    List<LegacyPassword> getUserPasswords(Long userId);
+    List<Password> getUserPasswords(Integer userId);
 
     /**
      * Получает пароль по его идентификатору.
@@ -52,19 +51,19 @@ public interface PasswordService {
      * @param id идентификатор пароля
      * @return объект пароля или null, если не найден
      */
-    LegacyPassword getPasswordById(Long id);
+    List<Password> getPasswordById(Integer id);
 
     /**
      * Сохраняет пароль в хранилище.
      *
      * @param password объект пароля для сохранения
      */
-    void savePassword(LegacyPassword password);
+    void savePassword(Password password);
 
     /**
      * Удаляет пароль по его идентификатору.
      *
      * @param id идентификатор пароля для удаления
      */
-    void deletePassword(Long id);
+    void deletePassword(Integer id);
 }

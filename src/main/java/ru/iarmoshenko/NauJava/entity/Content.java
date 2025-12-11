@@ -1,10 +1,6 @@
 package ru.iarmoshenko.NauJava.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  * Класс, представляющий сущность контента в системе.
@@ -27,12 +23,18 @@ public class Content {
     @Column(unique = true, nullable = false)
     private String usedSymbols;
 
-    protected Content() {}
+    @Enumerated(EnumType.STRING)  // Теперь правильно - для enum
+    @Column(nullable = false)
+    private ContentType contentType;
 
-    public Content(String name, String description, String usedSymbols) {
+    protected Content() {
+    }
+
+    public Content(String name, String description, ContentType contentType) {
         setName(name);
         setDescription(description);
-        setUsedSymbols(usedSymbols);
+        setContentType(contentType);
+        setUsedSymbols(contentType.getSymbols());
     }
 
     public int getId() {
@@ -65,5 +67,13 @@ public class Content {
 
     public void setUsedSymbols(String usedSymbols) {
         this.usedSymbols = usedSymbols;
+    }
+
+    public ContentType getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
     }
 }

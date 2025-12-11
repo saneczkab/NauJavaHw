@@ -67,7 +67,7 @@ public abstract class PasswordGeneratorTest {
         for (int i = 0; i < count; i++) {
             for (var user : users) {
                 var encryptedPassword = new byte[]{(byte) i};
-                var content = new Content("name" + id, "description" + id, "usedSymbols" + id);
+                var content = new Content("name" + id, "description" + id);
                 var algo = new Algorithm("name" + id, id, "mode" + id);
                 var password = new Password(user, encryptedPassword, content, algo, "salt" + id, id, now);
 
