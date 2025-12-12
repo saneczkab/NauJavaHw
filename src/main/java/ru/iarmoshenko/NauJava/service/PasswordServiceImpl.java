@@ -11,6 +11,8 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,8 +36,7 @@ public class PasswordServiceImpl implements PasswordService {
             keyGen.init(128);
             secretKey = keyGen.generateKey();
             cipher = Cipher.getInstance(algorithm);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -53,26 +54,54 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public String generatePassword(int length, ContentType content, Integer userId) {
-        var rawPassword = generateRawPassword(length, content);
+    public List<String> generatePassword(int count, int length, ContentType content, Integer userId) {
         var user = userRepository.findById(userId).orElseThrow();
-        var salt = Long.toHexString(Double.doubleToLongBits(Math.random()));
-        var encryptedPassword = encryptPassword(rawPassword, salt);
-        var updateAt = LocalDateTime.now();
+        List<String> generated = Collections.synchronizedList(new ArrayList<>());
+        List<Thread> threads = new ArrayList<>();
 
-        var password = new Password(user, encryptedPassword ,content, salt, length, updateAt);
-        savePassword(password);
+        for (int i = 0; i < count; i++) {
+            Thread t = new Thread(() -> {
+                try {
+                    var rawPassword = generateRawPassword(length, content);
+                    var salt = Long.toHexString(Double.doubleToLongBits(Math.random()));
+                    var cipher = Cipher.getInstance("AES");
+                    cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                    var encrypted = cipher.doFinal((rawPassword + salt).getBytes());
+                    var passwordEntity = new Password(user, encrypted, content, salt, length, LocalDateTime.now()
+                    );
 
-        return rawPassword;
+                    savePassword(passwordEntity);
+                    generated.add(rawPassword);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            threads.add(t);
+        }
+
+        threads.forEach(Thread::start);
+
+        for (Thread t : threads) {
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
+            }
+        }
+
+        return generated;
     }
+
 
     @Override
     public byte[] encryptPassword(String password, String salt) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return cipher.doFinal((password + salt).getBytes());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -87,8 +116,7 @@ public class PasswordServiceImpl implements PasswordService {
             var decryptedSaltedPass = new String(decryptedBytes);
             var passwordLength = decryptedSaltedPass.length() - salt.length();
             return decryptedSaltedPass.substring(0, passwordLength);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

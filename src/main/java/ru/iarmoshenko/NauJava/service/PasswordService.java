@@ -17,7 +17,7 @@ public interface PasswordService {
      * @param userId идентификатор пользователя
      * @return сгенерированный пароль в виде строки
      */
-    String generatePassword(int length, ContentType content, Integer userId);
+    List<String> generatePassword(int count, int length, ContentType content, Integer userId);
 
     /**
      * Шифрует пароль с использованием соли.
