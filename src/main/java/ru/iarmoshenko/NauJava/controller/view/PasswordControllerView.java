@@ -44,7 +44,7 @@ public class PasswordControllerView {
      * @return имя представления для генерации паролей
      */
     @PostMapping("/generate")
-    public String generatePassword(boolean passContentLetters, boolean passContentDigits, boolean passContentSymbols, int count,
+    public String generatePassword(boolean passContentLetters, boolean passContentDigits, boolean passContentSymbols,
                                    Integer passLen, Integer passCount, Model model, Principal principal) {
         if (passLen == null || passLen < 1) {
             passLen = 12;
@@ -56,9 +56,9 @@ public class PasswordControllerView {
         var username = principal.getName();
         var user = userRepository.findByUsernameOrEmail(username, null).getFirst();
         var contentType = getContentType(passContentLetters, passContentDigits, passContentSymbols);
-        var pass = passwordService.generatePassword(count, passLen, contentType, user.getId());
+        var passwords = passwordService.generatePassword(passCount, passLen, contentType, user.getId());
+        model.addAttribute("message", passwords);
 
-        model.addAttribute("message", pass);
         return "passwordGenerator";
     }
 
