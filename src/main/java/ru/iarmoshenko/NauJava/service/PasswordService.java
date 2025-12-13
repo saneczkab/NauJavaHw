@@ -14,10 +14,10 @@ public interface PasswordService {
      *
      * @param length длина пароля
      * @param content тип контента (набор символов)
-     * @param userId идентификатор пользователя
+     * @param username идентификатор пользователя
      * @return сгенерированный пароль в виде строки
      */
-    List<String> generatePassword(int count, int length, ContentType content, Integer userId);
+    List<String> generatePassword(int count, int length, ContentType content, String username);
 
     /**
      * Шифрует пароль с использованием соли.
@@ -40,10 +40,10 @@ public interface PasswordService {
     /**
      * Получает все пароли пользователя.
      *
-     * @param userId идентификатор пользователя
+     * @param username идентификатор пользователя
      * @return список паролей пользователя
      */
-    List<Password> getUserPasswords(Integer userId);
+    List<Object[]> getUserPasswords(String username);
 
     /**
      * Получает пароль по его идентификатору.
@@ -65,5 +65,5 @@ public interface PasswordService {
      *
      * @param id идентификатор пароля для удаления
      */
-    void deletePassword(Integer id);
+    void deletePassword(int id, String username);
 }

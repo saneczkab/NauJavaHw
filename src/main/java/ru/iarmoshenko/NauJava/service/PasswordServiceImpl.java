@@ -1,6 +1,8 @@
 package ru.iarmoshenko.NauJava.service;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.iarmoshenko.NauJava.entity.ContentType;
 import ru.iarmoshenko.NauJava.entity.Password;
@@ -10,8 +12,10 @@ import ru.iarmoshenko.NauJava.repository.UserRepository;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +25,15 @@ public class PasswordServiceImpl implements PasswordService {
     private final UserRepository userRepository;
     private SecretKey secretKey;
     private Cipher cipher;
+
+    @Value("${crypto.secret-key}")
+    private String secretKeyValue;
+
+    @PostConstruct
+    private void initKey() {
+        var decoded = Base64.getDecoder().decode(secretKeyValue);
+        secretKey = new SecretKeySpec(decoded, "AES");
+    }
 
     @Autowired
     public PasswordServiceImpl(PasswordRepository passwordRepository, UserRepository userRepository) {
@@ -34,7 +47,6 @@ public class PasswordServiceImpl implements PasswordService {
             var algorithm = "AES";
             var keyGen = KeyGenerator.getInstance(algorithm);
             keyGen.init(128);
-            secretKey = keyGen.generateKey();
             cipher = Cipher.getInstance(algorithm);
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,8 +66,8 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public List<String> generatePassword(int count, int length, ContentType content, Integer userId) {
-        var user = userRepository.findById(userId).orElseThrow();
+    public List<String> generatePassword(int count, int length, ContentType content, String username) {
+        var user = userRepository.findByUsernameOrEmail(username, null).getFirst();
         List<String> generated = Collections.synchronizedList(new ArrayList<>());
         List<Thread> threads = new ArrayList<>();
 
@@ -129,8 +141,19 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public List<Password> getUserPasswords(Integer userId) {
-        return passwordRepository.findByUserId(userId);
+    public List<Object[]> getUserPasswords(String username) {
+        var user = userRepository
+                .findByUsernameOrEmail(username, null)
+                .getFirst();
+
+        return passwordRepository.findByUserId(user.getId())
+                .stream()
+                .map(p -> new Object[]{
+                        p.getId(),
+                        decryptPassword(p.getEncryptedPassword(), p.getSalt()),
+                        p.getUpdatedAt()
+                })
+                .toList();
     }
 
     @Override
@@ -139,7 +162,11 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public void deletePassword(Integer id) {
-        passwordRepository.deleteById(id);
+    public void deletePassword(int passwordId, String username) {
+        var password = passwordRepository.findById(passwordId).orElseThrow();
+
+        if (password.getUser().getUsername().equals(username)) {
+            passwordRepository.deleteById(passwordId);
+        }
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import ru.iarmoshenko.NauJava.entity.Role;
 import ru.iarmoshenko.NauJava.entity.User;
 import ru.iarmoshenko.NauJava.repository.PasswordRepository;
 import ru.iarmoshenko.NauJava.repository.UserRepository;
@@ -24,16 +25,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(Integer id) {
+    public void deleteUserById(int requesterId, int userId) {
         var status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
-            var passwords = passwordRepository.findByUserId(id);
-            passwordRepository.deleteAll(passwords);
-            userRepository.deleteById(id);
-            transactionManager.commit(status);
-        }
-        catch (DataAccessException e) {
+            var requester = userRepository.findById(requesterId)
+                    .orElseThrow();
+
+            if (requester.getRole().equals(Role.ADMIN)) {
+                var passwords = passwordRepository.findByUserId(userId);
+                passwordRepository.deleteAll(passwords);
+                userRepository.deleteById(userId);
+                transactionManager.commit(status);
+            }
+        } catch (RuntimeException e) {
             transactionManager.rollback(status);
             throw e;
         }
@@ -48,8 +53,7 @@ public class UserServiceImpl implements UserService {
                     .stream().findFirst().orElse(null);
             transactionManager.commit(status);
             return user;
-        }
-        catch (DataAccessException e) {
+        } catch (DataAccessException e) {
             transactionManager.rollback(status);
             throw e;
         }
@@ -63,8 +67,7 @@ public class UserServiceImpl implements UserService {
             var user = new User(username, email, password);
             userRepository.save(user);
             transactionManager.commit(status);
-        }
-        catch (DataAccessException e) {
+        } catch (DataAccessException e) {
             transactionManager.rollback(status);
             throw e;
         }

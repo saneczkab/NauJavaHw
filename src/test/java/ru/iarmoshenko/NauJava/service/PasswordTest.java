@@ -25,7 +25,7 @@ public class PasswordTest extends PasswordGeneratorTest {
         var length = random.nextInt(1, 64);
         var count = random.nextInt(32, 64);
         var content = ContentType.MIX;
-        List<String> generatedPasswords = passwordService.generatePassword(count, length, content, user.getId());
+        List<String> generatedPasswords = passwordService.generatePassword(count, length, content, user.getUsername());
         var userDecryptedPasswords = passwordRepository.findByUserId(user.getId())
                 .stream()
                 .map(pass -> passwordService.decryptPassword(pass.getEncryptedPassword(), pass.getSalt()))

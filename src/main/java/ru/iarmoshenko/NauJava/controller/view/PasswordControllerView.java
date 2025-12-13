@@ -56,7 +56,7 @@ public class PasswordControllerView {
         var username = principal.getName();
         var user = userRepository.findByUsernameOrEmail(username, null).getFirst();
         var contentType = getContentType(passContentLetters, passContentDigits, passContentSymbols);
-        var passwords = passwordService.generatePassword(passCount, passLen, contentType, user.getId());
+        var passwords = passwordService.generatePassword(passCount, passLen, contentType, username);
         model.addAttribute("message", passwords);
 
         return "passwordGenerator";

@@ -12,9 +12,10 @@ public interface UserService {
     /**
      * Удаляет пользователя по его идентификатору.
      *
-     * @param id идентификатор пользователя для удаления
+     * @param requesterId идентификатор пользователя, который будет удалять
+     * @param userId идентификатор пользователя для удаления
      */
-    void deleteUserById(Integer id);
+    void deleteUserById(int requesterId, int userId);
 
     /**
      * Получает пользователя по его имени пользователя.
