@@ -25,19 +25,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(int requesterId, int userId) {
+    public void deleteUserById(Integer id, String requesterUsername) throws IllegalAccessException {
+        var requester = userRepository.findByUsernameOrEmail(requesterUsername, null).getFirst();
+        if (!requester.getRole().equals(Role.ADMIN)) {
+            throw new IllegalAccessException("Access denied: user is not an administrator!");
+        }
+
         var status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
-            var requester = userRepository.findById(requesterId)
-                    .orElseThrow();
-
-            if (requester.getRole().equals(Role.ADMIN)) {
-                var passwords = passwordRepository.findByUserId(userId);
-                passwordRepository.deleteAll(passwords);
-                userRepository.deleteById(userId);
-                transactionManager.commit(status);
-            }
+            var passwords = passwordRepository.findByUserId(id);
+            passwordRepository.deleteAll(passwords);
+            userRepository.deleteById(id);
+            transactionManager.commit(status);
         } catch (RuntimeException e) {
             transactionManager.rollback(status);
             throw e;
@@ -71,5 +71,49 @@ public class UserServiceImpl implements UserService {
             transactionManager.rollback(status);
             throw e;
         }
+    }
+    @Override
+    public Iterable<User> getAllUsers(String getterUsername) throws IllegalAccessException {
+        var getter = userRepository.findByUsernameOrEmail(getterUsername, null).getFirst();
+
+        if (!getter.getRole().equals(Role.ADMIN)) {
+            throw new IllegalAccessException("Access denied: user is not an administrator!");
+        }
+
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void setUserRoleAdmin(int userId, String requesterUsername) throws IllegalAccessException {
+        var requester = userRepository.findByUsernameOrEmail(requesterUsername, null).getFirst();
+        if (!requester.getRole().equals(Role.ADMIN)) {
+            throw new IllegalAccessException("Access denied: user is not an administrator!");
+        }
+
+        var user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            return;
+        }
+
+        user.setRole(Role.ADMIN);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void setUserRoleUser(int userId, String requesterUsername) throws IllegalAccessException {
+        var requester = userRepository.findByUsernameOrEmail(requesterUsername, null).getFirst();
+        if (!requester.getRole().equals(Role.ADMIN)) {
+            throw new IllegalAccessException("Access denied: user is not an administrator!");
+        }
+
+        var user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            return;
+        }
+
+        user.setRole(Role.USER);
+        userRepository.save(user);
     }
 }

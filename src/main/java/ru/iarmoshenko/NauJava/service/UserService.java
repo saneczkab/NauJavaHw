@@ -9,13 +9,15 @@ import java.util.Optional;
  * Определяет основные операции управления пользователями.
  */
 public interface UserService {
-    /**
-     * Удаляет пользователя по его идентификатору.
-     *
-     * @param requesterId идентификатор пользователя, который будет удалять
-     * @param userId идентификатор пользователя для удаления
-     */
-    void deleteUserById(int requesterId, int userId);
+  /**
+   * Удаляет пользователя по его идентификатору, если запрос сделан администратором.
+   * Нельзя удалить пользователя с правами администратора.
+   *
+   * @param id id пользователя для удаления
+   * @param requesterUsername никнейм пользователя, делающего запрос
+   * @throws IllegalAccessException если запрос сделан не администратором
+   */
+  void deleteUserById(Integer id, String requesterUsername) throws IllegalAccessException;
 
     /**
      * Получает пользователя по его имени пользователя.
@@ -33,4 +35,28 @@ public interface UserService {
      * @param password пароль пользователя
      */
     void createUser(String username, String email, String password);
+
+    /**
+     * Получает всех пользователей, если запрос сделан администратором.
+     * @param getterUsername никнейм пользователя, делающего запрос
+     * @return список всех пользователей
+     * @throws IllegalAccessException если пользователь не администратор
+     */
+    Iterable<User> getAllUsers(String getterUsername) throws IllegalAccessException;
+
+    /**
+     * Устанавливает роль администратора для пользователя по его userId, если запрос сделан администратором.
+     * @param userId id пользователя, которому устанавливается роль
+     * @param requesterUsername никнейм пользователя, делающего запрос
+     * @throws IllegalAccessException если пользователь не администратор
+     */
+    void setUserRoleAdmin(int userId, String requesterUsername) throws IllegalAccessException;
+
+    /**
+     * Устанавливает роль администратора для пользователя по его id, если запрос сделан администратором.
+     * @param userId id пользователя, которому устанавливается роль
+     * @param requesterUsername никнейм пользователя, делающего запрос
+     * @throws IllegalAccessException если пользователь не администратор
+     */
+    void setUserRoleUser(int userId, String requesterUsername) throws IllegalAccessException;
 }
