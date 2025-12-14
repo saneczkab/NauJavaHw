@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import ru.iarmoshenko.NauJava.entity.LegacyPassword;
 
@@ -33,8 +32,7 @@ public class Config {
 
     @Bean
     @Scope(value = BeanDefinition.SCOPE_SINGLETON)
-    public List<LegacyPassword> passwordContainer()
-    {
+    public List<LegacyPassword> passwordContainer() {
         return new ArrayList<>();
     }
 
@@ -53,7 +51,7 @@ public class Config {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/logout").permitAll()
-                        .requestMatchers( "/swagger-ui/**", "/v3/api-docs/**").hasRole("ADMIN")
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/report/**", "/monitoring/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
