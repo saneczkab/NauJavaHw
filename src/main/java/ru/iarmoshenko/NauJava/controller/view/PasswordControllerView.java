@@ -80,7 +80,7 @@ public class PasswordControllerView {
             passLen = 12;
         }
         if (passCount == null || passCount < 1) {
-            passCount = 1;
+            passCount = 12;
         }
 
         var username = principal.getName();
