@@ -30,7 +30,7 @@ public class PasswordControllerTest extends PasswordGeneratorTest {
 
             var apiPasswords = RestAssured.given()
                     .auth()
-                    .basic("admin", "admin")
+                    .basic("tests_admin", "tests_admin")
                     .param("userId", user.getId())
                     .get("/api/passwords/findByUserId")
                     .then()

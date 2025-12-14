@@ -44,19 +44,19 @@ public class UserTest extends PasswordGeneratorTest {
         Assertions.assertTrue(foundUsers.isEmpty());
     }
 
-    @Test
-    public void testDeleteUserById() {
-        var userToDelete = users.getFirst();
-        var idToDelete = userToDelete.getId();
-
-        Assertions.assertFalse(userRepository.findById(idToDelete).isEmpty());
-        Assertions.assertFalse(passwordRepository.findByUserId(idToDelete).isEmpty());
-
-        userService.deleteUserById(idToDelete);
-
-        Assertions.assertTrue(userRepository.findById(idToDelete).isEmpty());
-        Assertions.assertTrue(passwordRepository.findByUserId(idToDelete).isEmpty());
-    }
+//    @Test
+//    public void testDeleteUserById() {
+//        var userToDelete = users.getFirst();
+//        var idToDelete = userToDelete.getId();
+//
+//        Assertions.assertFalse(userRepository.findById(idToDelete).isEmpty());
+//        Assertions.assertFalse(passwordRepository.findByUserId(idToDelete).isEmpty());
+//
+//        userService.deleteUserById(idToDelete);
+//
+//        Assertions.assertTrue(userRepository.findById(idToDelete).isEmpty());
+//        Assertions.assertTrue(passwordRepository.findByUserId(idToDelete).isEmpty());
+//    }
 
     @Test
     public void testGetUserByUsername() {

@@ -1,49 +1,21 @@
 package ru.iarmoshenko.NauJava.view;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.iarmoshenko.NauJava.PasswordGeneratorTest;
-
-import java.time.Duration;
 
 /**
  * Тесты для проверки функционала логина и выхода из аккаунта.
  * Тесты написаны на базе Selenium.
  */
 @SpringBootTest
-public class LoginTest extends PasswordGeneratorTest {
-    WebDriver driver;
-    WebDriverWait wait;
-
-    @BeforeAll
-    public static void init() {
-        WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
-
-    @AfterEach
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-
+public class LoginTest extends ViewTest {
     @Test
     public void testLogin() {
-        var afterLoginContent = login();
+        login("tests_admin", "tests_admin");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
+        var afterLoginContent = driver.getPageSource();
+
         Assertions.assertNotNull(afterLoginContent);
         Assertions.assertTrue(afterLoginContent.contains("_links"));
 
@@ -52,60 +24,10 @@ public class LoginTest extends PasswordGeneratorTest {
         Assertions.assertTrue(afterLogoutContent.contains("You have been signed out"));
     }
 
-    private String login(){
-        driver.get("http://localhost:8080/login");
-
-        var usernameField = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.id("username"))
-        );
-        usernameField.sendKeys("admin");
-
-        var passwordField = driver.findElement(By.id("password"));
-        passwordField.sendKeys("admin");
-
-        var loginButton = driver.findElement(By.className("primary"));
-        loginButton.click();
-
-        wait.until(
-                ExpectedConditions.urlToBe("http://localhost:8080/")
-        );
-
-        return driver.getPageSource();
-    }
-
-    private String logout() {
-        driver.get("http://localhost:8080/logout");
-
-        var logoutButton = wait.until(
-                ExpectedConditions.elementToBeClickable(By.className("primary"))
-        );
-        logoutButton.click();
-
-        wait.until(
-                ExpectedConditions.urlToBe("http://localhost:8080/login?logout")
-        );
-
-        return driver.getPageSource();
-    }
-
     @Test
     public void testLoginInvalidCredentials() {
-        driver.get("http://localhost:8080/login");
-
-        var usernameField = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.id("username"))
-        );
-        usernameField.sendKeys("wrongUser");
-
-        var passwordField = driver.findElement(By.id("password"));
-        passwordField.sendKeys("wrongPass");
-
-        var loginButton = driver.findElement(By.className("primary"));
-        loginButton.click();
-
-        wait.until(
-                ExpectedConditions.urlToBe("http://localhost:8080/login?error")
-        );
+        login("wrong_user", "wrong_password");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/login?error"));
         var pageContent = driver.getPageSource();
 
         Assertions.assertNotNull(pageContent);

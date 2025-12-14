@@ -41,22 +41,36 @@ public abstract class PasswordGeneratorTest {
         users = generateUsers(5);
         passwords = generatePasswords(5, users);
         createAdminUser();
+        createUser();
     }
 
     /**
      * Создание пользователя с правами администратора для тестов, сохранение в базе.
      */
     private void createAdminUser() {
-        var passHash = passwordEncoder.encode("admin");
-        var adminUser = new User("admin", "admin@admin.ru", passHash);
+        var passHash = passwordEncoder.encode("tests_admin");
+        var adminUser = new User("tests_admin", "admin@admin.ru", passHash);
         adminUser.setRole(Role.ADMIN);
         userRepository.save(adminUser);
+        users.add(adminUser);
+    }
+
+    /**
+     * Создание пользователя без прав администратора для тестов, сохранение в базе.
+     */
+    protected void createUser() {
+        var passHash = passwordEncoder.encode("tests_user");
+        var user = new User("tests_user",  "tests_user@admin.ru", passHash);
+        userRepository.save(user);
+        users.add(user);
     }
 
     @AfterEach
     public void cleanUp() {
-        passwordRepository.deleteAll();
-        userRepository.deleteAll();
+        for (var user : users) {
+            passwordRepository.deleteAll(passwordRepository.findByUserId(user.getId()));
+            userRepository.delete(user);
+        }
     }
 
     /**
