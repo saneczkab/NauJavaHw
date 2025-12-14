@@ -52,8 +52,6 @@ public class ViewTest extends PasswordGeneratorTest {
 
         var loginButton = driver.findElement(By.className("primary"));
         loginButton.click();
-
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
     }
 
     protected String logout() {

@@ -22,6 +22,7 @@ public class PasswordControllerViewTest extends ViewTest {
     @Test
     public void testGenerateAndDeletePassword() {
         login("tests_admin", "tests_admin");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
 
         var random = new Random();
         var expectedLength = random.nextInt(1, 20);
@@ -44,6 +45,7 @@ public class PasswordControllerViewTest extends ViewTest {
     @Test
     public void testGeneratePasswords() {
         login("tests_admin", "tests_admin");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
 
         var random = new Random();
         var expectedLength = random.nextInt(1, 20);
@@ -63,6 +65,7 @@ public class PasswordControllerViewTest extends ViewTest {
     @Test
     public void testGenerateLotPasswords() {
         login("tests_admin", "tests_admin");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
 
         var random = new Random();
         var expectedLength = random.nextInt(1000, 2000);
@@ -83,6 +86,7 @@ public class PasswordControllerViewTest extends ViewTest {
     @Test
     public void testGeneratePasswordsInvalidLen() {
         login("tests_admin", "tests_admin");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
 
         var len = -42;
         var standardLen = 12;
@@ -104,6 +108,7 @@ public class PasswordControllerViewTest extends ViewTest {
     @Test
     public void testGeneratePasswordsInvalidCount() {
         login("tests_admin", "tests_admin");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
 
         var expectedLen = 13;
         var count = -42;
