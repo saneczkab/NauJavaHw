@@ -162,11 +162,11 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public void deletePassword(int passwordId, String username) {
-        var password = passwordRepository.findById(passwordId).orElseThrow();
+    public void deletePassword(int passId, String username) {
+        var password = passwordRepository.findById(passId).orElseThrow();
 
         if (password.getUser().getUsername().equals(username)) {
-            passwordRepository.deleteById(passwordId);
+            passwordRepository.deleteById(passId);
         }
     }
 }

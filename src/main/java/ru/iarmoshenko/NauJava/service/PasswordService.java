@@ -41,7 +41,11 @@ public interface PasswordService {
      * Получает все пароли пользователя.
      *
      * @param username идентификатор пользователя
-     * @return список паролей пользователя
+     * @return список паролей пользователя.
+     * Каждый object[] содержит:
+     * [0] - id пароля
+     * [1] - расшифрованный пароль
+     * [2] - время создания пароля
      */
     List<Object[]> getUserPasswords(String username);
 
@@ -63,7 +67,8 @@ public interface PasswordService {
     /**
      * Удаляет пароль по его идентификатору.
      *
-     * @param id идентификатор пароля для удаления
+     * @param passId идентификатор пароля для удаления
+     * @param username имя пользователя, которому принадлежит пароль
      */
-    void deletePassword(int id, String username);
+    void deletePassword(int passId, String username);
 }
