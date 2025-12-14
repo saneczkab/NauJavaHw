@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.iarmoshenko.NauJava.repository.UserRepository;
 import ru.iarmoshenko.NauJava.service.UserService;
 
 import java.security.Principal;
@@ -19,7 +18,7 @@ import java.security.Principal;
 public class UserControllerView {
     private final UserService userService;
 
-    public UserControllerView(UserRepository userRepository, UserService userService) {
+    public UserControllerView(UserService userService) {
         this.userService = userService;
     }
 
@@ -73,6 +72,18 @@ public class UserControllerView {
         var requesterUsername = principal.getName();
         try {
             userService.setUserRoleUser(userId, requesterUsername);
+        } catch (IllegalAccessException e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "redirect:/view/users/list";
+    }
+
+    @PostMapping("/user/{userId}/delete")
+    public String deleteUser(@PathVariable int userId, Model model, Principal principal) {
+        var requesterUsername = principal.getName();
+        try {
+            userService.deleteUserById(userId, requesterUsername);
         } catch (IllegalAccessException e) {
             model.addAttribute("message", e.getMessage());
         }
