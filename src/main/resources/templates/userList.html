@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
   </head>
   <body>
-  <div th:replace="topbar :: topbar"></div>
+    <div th:replace="topbar :: topbar"></div>
 
     <h1>User list</h1>
 
@@ -27,17 +27,26 @@
         <td th:text="${user.username}"></td>
         <td th:text="${user.role}"></td>
         <td>
-          <form th:action="@{/user/{userId}/setRoleAdmin(userId=${user.id})}" method="post">
+          <form
+            th:action="@{/user/{userId}/setRoleAdmin(userId=${user.id})}"
+            method="post"
+          >
             <div><input type="submit" value="Set role Admin" /></div>
           </form>
         </td>
         <td>
-          <form th:action="@{/user/{userId}/setRoleUser(userId=${user.id})}" method="post">
+          <form
+            th:action="@{/user/{userId}/setRoleUser(userId=${user.id})}"
+            method="post"
+          >
             <div><input type="submit" value="Set role User" /></div>
           </form>
         </td>
         <td>
-          <form th:action="@{/user/{userId}/delete(userId=${user.id})}" method="post">
+          <form
+            th:action="@{/user/{userId}/delete(userId=${user.id})}"
+            method="post"
+          >
             <div><input type="submit" value="X" /></div>
           </form>
         </td>
