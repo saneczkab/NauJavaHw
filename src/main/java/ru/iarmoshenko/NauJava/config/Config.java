@@ -51,7 +51,8 @@ public class Config {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/logout").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/report/**", "/monitoring/**").hasRole("ADMIN")
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/report/**",
+                                "/monitoring/**", "/view/users/list", "user/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
