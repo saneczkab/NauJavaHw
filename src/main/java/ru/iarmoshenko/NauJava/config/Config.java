@@ -50,11 +50,10 @@ public class Config {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/registration", "/login", "/logout").permitAll()
+                        .requestMatchers("/registration", "/login", "/logout", "/css/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/report/**",
                                 "/monitoring/**", "/users/list", "user/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
 
         return http.build();
