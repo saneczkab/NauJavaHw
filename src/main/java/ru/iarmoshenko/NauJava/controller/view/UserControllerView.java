@@ -41,43 +41,43 @@ public class UserControllerView {
         return "userList";
     }
 
-    /**
-     * Устанавливает роль администратора для пользователя по его id.
-     * @param userId id пользователя, которому устанавливается роль
-     * @param model модель для передачи данных на страницу
-     * @param principal информация о текущем пользователе
-     * @return перенаправление на страницу списка пользователей
-     */
-    @PostMapping("/user/{userId}/setRoleAdmin")
-    public String setUserRoleAdmin(@PathVariable int userId, Model model, Principal principal) {
-        var requesterUsername = principal.getName();
-        try {
-            userService.setUserRoleAdmin(userId, requesterUsername);
-        } catch (IllegalAccessException e) {
-            model.addAttribute("message", e.getMessage());
-        }
-
-        return "redirect:/users/list";
-    }
-
-    /**
-     * Устанавливает роль User для пользователя по его id.
-     * @param userId id пользователя, которому устанавливается роль
-     * @param model модель для передачи данных на страницу
-     * @param principal информация о текущем пользователе
-     * @return перенаправление на страницу списка пользователей
-     */
-    @PostMapping("/user/{userId}/setRoleUser")
-    public String setUserRoleUser(@PathVariable int userId, Model model, Principal principal) {
-        var requesterUsername = principal.getName();
-        try {
-            userService.setUserRoleUser(userId, requesterUsername);
-        } catch (IllegalAccessException e) {
-            model.addAttribute("message", e.getMessage());
-        }
-
-        return "redirect:/users/list";
-    }
+//    /**
+//     * Устанавливает роль администратора для пользователя по его id.
+//     * @param userId id пользователя, которому устанавливается роль
+//     * @param model модель для передачи данных на страницу
+//     * @param principal информация о текущем пользователе
+//     * @return перенаправление на страницу списка пользователей
+//     */
+//    @PostMapping("/user/{userId}/setRoleAdmin")
+//    public String setUserRoleAdmin(@PathVariable int userId, Model model, Principal principal) {
+//        var requesterUsername = principal.getName();
+//        try {
+//            userService.setUserRoleAdmin(userId, requesterUsername);
+//        } catch (IllegalAccessException e) {
+//            model.addAttribute("message", e.getMessage());
+//        }
+//
+//        return "redirect:/users/list";
+//    }
+//
+//    /**
+//     * Устанавливает роль User для пользователя по его id.
+//     * @param userId id пользователя, которому устанавливается роль
+//     * @param model модель для передачи данных на страницу
+//     * @param principal информация о текущем пользователе
+//     * @return перенаправление на страницу списка пользователей
+//     */
+//    @PostMapping("/user/{userId}/setRoleUser")
+//    public String setUserRoleUser(@PathVariable int userId, Model model, Principal principal) {
+//        var requesterUsername = principal.getName();
+//        try {
+//            userService.setUserRoleUser(userId, requesterUsername);
+//        } catch (IllegalAccessException e) {
+//            model.addAttribute("message", e.getMessage());
+//        }
+//
+//        return "redirect:/users/list";
+//    }
 
     @PostMapping("/user/{userId}/delete")
     public String deleteUser(@PathVariable int userId, Model model, Principal principal) {

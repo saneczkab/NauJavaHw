@@ -17,8 +17,8 @@
         <th>Email</th>
         <th>Username</th>
         <th>Role</th>
-        <th>Set role Admin</th>
-        <th>Set role User</th>
+<!--        <th>Set role Admin</th>-->
+<!--        <th>Set role User</th>-->
         <th>Delete</th>
       </tr>
       <tr th:each="user : ${users}">
@@ -26,22 +26,22 @@
         <td th:text="${user.email}"></td>
         <td th:text="${user.username}"></td>
         <td th:text="${user.role}"></td>
-        <td>
-          <form
-            th:action="@{/user/{userId}/setRoleAdmin(userId=${user.id})}"
-            method="post"
-          >
-            <div><input type="submit" value="Set role Admin" /></div>
-          </form>
-        </td>
-        <td>
-          <form
-            th:action="@{/user/{userId}/setRoleUser(userId=${user.id})}"
-            method="post"
-          >
-            <div><input type="submit" value="Set role User" /></div>
-          </form>
-        </td>
+<!--        <td>-->
+<!--          <form-->
+<!--            th:action="@{/user/{userId}/setRoleAdmin(userId=${user.id})}"-->
+<!--            method="post"-->
+<!--          >-->
+<!--            <div><input type="submit" value="Set role Admin" /></div>-->
+<!--          </form>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <form-->
+<!--            th:action="@{/user/{userId}/setRoleUser(userId=${user.id})}"-->
+<!--            method="post"-->
+<!--          >-->
+<!--            <div><input type="submit" value="Set role User" /></div>-->
+<!--          </form>-->
+<!--        </td>-->
         <td>
           <form
             th:action="@{/user/{userId}/delete(userId=${user.id})}"

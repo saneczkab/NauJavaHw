@@ -16,7 +16,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     public String generateReport() {
-        var report = new StringBuilder();
+        var report = new StringBuffer();
         var totalWatch = new StopWatch();
         totalWatch.start();
 
@@ -41,14 +41,14 @@ public class ReportServiceImpl implements ReportService {
         return report.toString();
     }
 
-    private Thread[] createThreads(StringBuilder report) {
+    private Thread[] createThreads(StringBuffer report) {
         var userCountThread = getUserCountThread(report);
         var passwordThread = getPasswordThread(report);
 
         return new Thread[] { userCountThread, passwordThread };
     }
 
-    private Thread getUserCountThread(StringBuilder report) {
+    private Thread getUserCountThread(StringBuffer report) {
         return new Thread(() -> {
             var userCountWatch = new StopWatch();
             userCountWatch.start();
@@ -60,7 +60,7 @@ public class ReportServiceImpl implements ReportService {
         });
     }
 
-    private Thread getPasswordThread(StringBuilder report) {
+    private Thread getPasswordThread(StringBuffer report) {
         return new Thread(() -> {
             var passwordWatch = new StopWatch();
 

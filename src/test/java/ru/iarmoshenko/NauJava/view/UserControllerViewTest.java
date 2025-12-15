@@ -46,10 +46,10 @@ public class UserControllerViewTest extends ViewTest {
         var lastUser = userRows.getLast();
         var role = lastUser.findElements(By.tagName("td")).get(3).getText();
         var expectedRole = role.equals("ADMIN") ? "USER" : "ADMIN";
-        changeRole(lastUser);
+//        changeRole(lastUser);
         var updatedUsers = viewUsers();
         var updatedLastUser = updatedUsers.getLast();
-        checkRoleChange(updatedLastUser, expectedRole);
+//        checkRoleChange(updatedLastUser, expectedRole);
 
         deleteUser(updatedLastUser);
         var finalUsers = viewUsers();
@@ -62,30 +62,30 @@ public class UserControllerViewTest extends ViewTest {
         deleteButton.click();
     }
 
-    /**
-     * Проверка изменения роли пользователя в таблице.
-     * @param row строка таблицы пользователя
-     * @param expectedRole ожидаемая роль пользователя после изменения
-     */
-    private void checkRoleChange(WebElement row, String expectedRole) {
-        var cells = row.findElements(By.tagName("td"));
-        var role = cells.get(3).getText();
-        Assertions.assertEquals(expectedRole, role);
-    }
-
-    /**
-     * Изменение роли пользователя.
-     * USER -> ADMIN или ADMIN -> USER
-     * @param row строка таблицы пользователя
-     */
-    private void changeRole(WebElement row) {
-        var cells = row.findElements(By.tagName("td"));
-        var role = cells.get(3).getText();
-        var changeRoleButton = role.equals("USER") ?
-                cells.get(4).findElement(By.cssSelector("input[type='submit']")) :
-                cells.get(5).findElement(By.cssSelector("input[type='submit']"));
-        changeRoleButton.click();
-    }
+//    /**
+//     * Проверка изменения роли пользователя в таблице.
+//     * @param row строка таблицы пользователя
+//     * @param expectedRole ожидаемая роль пользователя после изменения
+//     */
+//    private void checkRoleChange(WebElement row, String expectedRole) {
+//        var cells = row.findElements(By.tagName("td"));
+//        var role = cells.get(3).getText();
+//        Assertions.assertEquals(expectedRole, role);
+//    }
+//
+//    /**
+//     * Изменение роли пользователя.
+//     * USER -> ADMIN или ADMIN -> USER
+//     * @param row строка таблицы пользователя
+//     */
+//    private void changeRole(WebElement row) {
+//        var cells = row.findElements(By.tagName("td"));
+//        var role = cells.get(3).getText();
+//        var changeRoleButton = role.equals("USER") ?
+//                cells.get(4).findElement(By.cssSelector("input[type='submit']")) :
+//                cells.get(5).findElement(By.cssSelector("input[type='submit']"));
+//        changeRoleButton.click();
+//    }
 
     /**
      * Проверка корректности отображаемых данных пользователей в таблице.
