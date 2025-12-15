@@ -136,11 +136,6 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public List<Password> getPasswordById(Integer id) {
-        return passwordRepository.findByUserId(id);
-    }
-
-    @Override
     public List<Object[]> getUserPasswords(String username) {
         var user = userRepository
                 .findByUsernameOrEmail(username, null)

@@ -12,10 +12,11 @@ public interface PasswordService {
     /**
      * Генерирует новый пароль с заданными параметрами.
      *
+     * @param count количество паролей для генерации
      * @param length длина пароля
      * @param content тип контента (набор символов)
      * @param username идентификатор пользователя
-     * @return сгенерированный пароль в виде строки
+     * @return сгенерированные пароли в расшифрованном виде (список строк)
      */
     List<String> generatePassword(int count, int length, ContentType content, String username);
 
@@ -48,14 +49,6 @@ public interface PasswordService {
      * [2] - время создания пароля
      */
     List<Object[]> getUserPasswords(String username);
-
-    /**
-     * Получает пароль по его идентификатору.
-     *
-     * @param id идентификатор пароля
-     * @return объект пароля или null, если не найден
-     */
-    List<Password> getPasswordById(Integer id);
 
     /**
      * Сохраняет пароль в хранилище.
