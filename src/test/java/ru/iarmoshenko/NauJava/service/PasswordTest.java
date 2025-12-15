@@ -38,7 +38,26 @@ public class PasswordTest extends PasswordGeneratorTest {
             Assertions.assertTrue(userDecryptedPasswords.contains(pass));
         }
 
-        Assertions.assertTrue(userDecryptedPasswords.contains(generatedPasswords));
+        Assertions.assertTrue(userDecryptedPasswords.containsAll(generatedPasswords));
+    }
+
+    /**
+     * Тест шифрования и дешифрования паролей.
+     */
+    @Test
+    public void testEncryptDecryptPassword() {
+        var generatedPassword = passwordService.generatePassword(
+                1, 42, ContentType.MIX, users.getLast().getUsername())
+                .getFirst();
+        var salt = Long.toHexString(Double.doubleToLongBits(Math.random()));
+
+        var encryptedPassword = passwordService.encryptPassword(generatedPassword, salt);
+        Assertions.assertNotNull(encryptedPassword);
+        Assertions.assertNotEquals(generatedPassword, new String(encryptedPassword));
+
+        var decryptedPassword = passwordService.decryptPassword(encryptedPassword, salt);
+        Assertions.assertNotNull(decryptedPassword);
+        Assertions.assertEquals(generatedPassword, decryptedPassword);
     }
 
     @Test
