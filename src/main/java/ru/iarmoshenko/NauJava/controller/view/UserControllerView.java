@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.iarmoshenko.NauJava.service.UserService;
 
-import java.security.Principal;
-
 /**
  * Контроллер для управления представлениями, связанными с пользователями.
  */
@@ -25,18 +23,12 @@ public class UserControllerView {
     /**
      * Отображает список всех пользователей.
      * @param model модель для передачи данных на страницу
-     * @param principal информация о текущем пользователе
      * @return имя представления для просмотра списка пользователей
      */
     @GetMapping("/users/list")
-    public String userListView(Model model, Principal principal) {
-        try {
-            var username = principal.getName();
-            var users = userService.getAllUsers(username);
-            model.addAttribute("users", users);
-        } catch (IllegalAccessException e) {
-            model.addAttribute("message", e.getMessage());
-        }
+    public String userListView(Model model) {
+        var users = userService.getAllUsers();
+        model.addAttribute("users", users);
 
         return "userList";
     }
@@ -80,10 +72,9 @@ public class UserControllerView {
 //    }
 
     @PostMapping("/user/{userId}/delete")
-    public String deleteUser(@PathVariable int userId, Model model, Principal principal) {
-        var requesterUsername = principal.getName();
+    public String deleteUser(@PathVariable int userId, Model model) {
         try {
-            userService.deleteUserById(userId, requesterUsername);
+            userService.deleteUserById(userId);
         } catch (IllegalAccessException e) {
             model.addAttribute("message", e.getMessage());
         }

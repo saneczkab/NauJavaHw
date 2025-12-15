@@ -58,7 +58,7 @@ public class UserControllerViewTest extends ViewTest {
 
     private void deleteUser(WebElement row) {
         var cells = row.findElements(By.tagName("td"));
-        var deleteButton = cells.get(6).findElement(By.cssSelector("input[type='submit']"));
+        var deleteButton = cells.get(4).findElement(By.cssSelector("input[type='submit']"));
         deleteButton.click();
     }
 
