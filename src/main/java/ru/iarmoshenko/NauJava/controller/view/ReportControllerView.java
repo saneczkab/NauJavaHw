@@ -10,8 +10,8 @@ import ru.iarmoshenko.NauJava.repository.PasswordRepository;
 import ru.iarmoshenko.NauJava.repository.UserRepository;
 
 @Controller
-@RequestMapping("/view/stats")
-public class StatsControllerView {
+@RequestMapping("/report")
+public class ReportControllerView {
     @Autowired
     private UserRepository userRepository;
 

@@ -23,7 +23,7 @@ public class UserControllerViewTest extends ViewTest {
         login("tests_user", "tests_user");
         wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
 
-        driver.get("http://localhost:8080/view/users/list");
+        driver.get("http://localhost:8080/users/list");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("body")));
         var content = driver.getPageSource();
 
@@ -114,7 +114,7 @@ public class UserControllerViewTest extends ViewTest {
      * @return список строк таблицы пользователей
      */
     private List<WebElement> viewUsers() {
-        driver.get("http://localhost:8080/view/users/list");
+        driver.get("http://localhost:8080/users/list");
 
         wait.until(d -> d.findElements(By.cssSelector("table tbody tr")));
 

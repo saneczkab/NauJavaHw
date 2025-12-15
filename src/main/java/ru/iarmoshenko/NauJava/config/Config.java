@@ -52,7 +52,7 @@ public class Config {
         http.authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/logout").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/report/**",
-                                "/monitoring/**", "/view/users/list", "user/**").hasRole("ADMIN")
+                                "/monitoring/**", "/users/list", "user/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());

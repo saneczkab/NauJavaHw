@@ -18,11 +18,9 @@ import java.security.Principal;
 @Controller
 public class PasswordControllerView {
     private final PasswordService passwordService;
-    private final UserRepository userRepository;
 
     public PasswordControllerView(PasswordService passwordService, UserRepository userRepository) {
         this.passwordService = passwordService;
-        this.userRepository = userRepository;
     }
 
     /**
@@ -31,7 +29,7 @@ public class PasswordControllerView {
      * @param principal информация о текущем пользователе
      * @return имя представления для просмотра истории сгенерированных паролей
      */
-    @GetMapping("/view/passwords")
+    @GetMapping("/passwords")
     public String viewPasswords(Model model, Principal principal) {
         var username = principal.getName();
         var passwords = passwordService.getUserPasswords(username);
@@ -50,14 +48,14 @@ public class PasswordControllerView {
     public String deletePassword(@PathVariable int passId, Principal principal) {
         var username = principal.getName();
         passwordService.deletePassword(passId, username);
-        return "redirect:/view/passwords";
+        return "redirect:/passwords";
     }
 
     /**
      * GET-запрос на отображение страницы генерации паролей.
      * @return имя представления для генерации паролей
      */
-    @GetMapping("/view/passwords/generate")
+    @GetMapping("")
     public String passwordGenerateView() {
         return "passwordGenerator";
     }

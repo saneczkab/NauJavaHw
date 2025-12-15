@@ -28,7 +28,7 @@ public class UserControllerView {
      * @param principal информация о текущем пользователе
      * @return имя представления для просмотра списка пользователей
      */
-    @GetMapping("/view/users/list")
+    @GetMapping("/users/list")
     public String userListView(Model model, Principal principal) {
         try {
             var username = principal.getName();
@@ -57,7 +57,7 @@ public class UserControllerView {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "redirect:/view/users/list";
+        return "redirect:/users/list";
     }
 
     /**
@@ -76,7 +76,7 @@ public class UserControllerView {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "redirect:/view/users/list";
+        return "redirect:/users/list";
     }
 
     @PostMapping("/user/{userId}/delete")
@@ -88,6 +88,6 @@ public class UserControllerView {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "redirect:/view/users/list";
+        return "redirect:/users/list";
     }
 }

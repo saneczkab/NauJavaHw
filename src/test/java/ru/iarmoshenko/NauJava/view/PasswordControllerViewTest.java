@@ -146,7 +146,7 @@ public class PasswordControllerViewTest extends ViewTest {
      * @return список сгенерированных паролей (веб-элементы)
      */
     private List<WebElement> generatePasswords(int len, int count) {
-        driver.get("http://localhost:8080/view/passwords/generate");
+        driver.get("http://localhost:8080/");
 
         var lenField = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.name("passLen"))
@@ -169,7 +169,7 @@ public class PasswordControllerViewTest extends ViewTest {
      * @return список паролей (веб-элементы таблицы)
      */
     private List<WebElement> viewPasswords() {
-        driver.get("http://localhost:8080/view/passwords");
+        driver.get("http://localhost:8080/passwords");
 
         wait.until(d -> d.findElements(By.cssSelector("table tbody tr")));
 

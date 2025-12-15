@@ -17,7 +17,7 @@ public class LoginTest extends ViewTest {
         var afterLoginContent = driver.getPageSource();
 
         Assertions.assertNotNull(afterLoginContent);
-        Assertions.assertTrue(afterLoginContent.contains("_links"));
+        Assertions.assertTrue(afterLoginContent.contains("Generate password"));
 
         var afterLogoutContent = logout();
         Assertions.assertNotNull(afterLogoutContent);
