@@ -1,7 +1,10 @@
 package ru.iarmoshenko.NauJava.service;
 
 public interface ReportService {
-    String getReportContentById(int id);
-    int createReport();
-    void generateReport(int id);
+    /**
+     * Генерация отчета.
+     * Содержимое: количество пользователей, количество паролей, время выполнения.
+     * @return Отчет в виде строки.
+     */
+    String generateReport();
 }

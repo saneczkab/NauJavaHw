@@ -1,0 +1,14 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <title>App stats</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+  </head>
+  <body>
+    <div th:replace="topbar :: topbar"></div>
+    <h1>Password generator report</h1>
+    <p>
+      <span th:text="${report}" />
+    </p>
+  </body>
+</html>

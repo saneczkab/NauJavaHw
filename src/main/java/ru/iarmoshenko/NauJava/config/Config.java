@@ -16,8 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import ru.iarmoshenko.NauJava.entity.LegacyPassword;
-
 /**
  * Файл конфигурации Spring Security и бинов приложения.
  */
@@ -29,12 +27,6 @@ public class Config {
 
     @Value("${spring.application.version}")
     private String appVersion;
-
-    @Bean
-    @Scope(value = BeanDefinition.SCOPE_SINGLETON)
-    public List<LegacyPassword> passwordContainer() {
-        return new ArrayList<>();
-    }
 
     @PostConstruct
     public void printAppInfo() {
@@ -51,7 +43,7 @@ public class Config {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/logout", "/css/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/report/**",
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/report/**", "/report",
                                 "/monitoring/**", "/users/list", "user/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());

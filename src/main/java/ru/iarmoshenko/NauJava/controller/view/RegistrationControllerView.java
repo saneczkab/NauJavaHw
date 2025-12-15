@@ -1,4 +1,4 @@
-package ru.iarmoshenko.NauJava.controller;
+package ru.iarmoshenko.NauJava.controller.view;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +12,7 @@ import ru.iarmoshenko.NauJava.service.UserService;
  * Контроллер для регистрации пользователей.
  * */
 @Controller
-public class RegistrationController {
+public class RegistrationControllerView {
     @Autowired
     public UserService userService;
 
