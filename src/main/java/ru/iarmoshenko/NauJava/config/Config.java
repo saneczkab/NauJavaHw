@@ -44,7 +44,7 @@ public class Config {
         http.authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/logout", "/css/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/report/**", "/report",
-                                "/monitoring/**", "/users/list", "user/**").hasRole("ADMIN")
+                                "/monitoring/**", "/users/list", "/user/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
 
